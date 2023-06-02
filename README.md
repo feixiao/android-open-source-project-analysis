@@ -1,7 +1,5 @@
 # <img src="./art/logo.png" alt="Android open source project analysis" width="80" height="80" align="bottom"/> Android open source project analysis
 
-**Note: The project has been moved to https://github.com/BeesAndroid/BeesAndroid.**
-
 ## 功能介绍
 
 [![License](https://img.shields.io/github/license/guoxiaoxing/android-open-source-project-analysis.svg)](https://jitpack.io/#guoxiaoxing/android-open-source-project-analysis)
@@ -17,7 +15,7 @@
 **代码版本**
 
 - 细分版本：N6F26U
-- 分支：android-7.1.1_r28
+- 分支：Android-7.1.1_r28
 - 版本：Nougat
 - 支持设备：Nexus 6
 
@@ -26,10 +24,10 @@
 Android 是一个庞大的系统，Android Framework 只是对系统的一个封装，里面还牵扯到 JNI、C++、Java 虚拟机、Linux 系统内核、指令集等。面对如此庞大的系统，我们得有一定的
 章法去阅读源码，否则就会只见树木不见森林，陷入卷帙浩繁的细节与琐碎之中。
 
-- 不要去记录那些 API 调用链，绘制一个序列图理清思路即可，Android Framework 中有很多复杂的 API 调用链，你去关注这些东西，用处不大。你需要学会的是跟踪调用链和梳理流程的
-  技巧，思考一下作者是怎么找到关键入口的，核心的实现在什么地方。
+- **不要去记录那些 API 调用链，绘制一个序列图理清思路即可**，Android Framework 中有很多复杂的 API 调用链，你去关注这些东西，用处不大。你需要学会的是跟踪调用链和梳理流程的
+  技巧，**思考一下作者是怎么找到关键入口的，核心的实现在什么地方。**
 - 要善于思考，要多问为什么，面对一个模块，你要去思考这个模块解决了什么问题，这个问题的本质是什么，为什么这么解决，如果让我来写，我会怎么设计。事实上不管是是计算机还是
-  手机，从 CPU、到内存、到操作系统、到应用层，看似纷繁复杂，但问题的本质无非就是这么几种：时间片怎么分配？线程/进程怎么调度？通信的机制是什么？只是在不同的场景下加了具体
+  手机，从 CPU、到内存、到操作系统、到应用层，看似纷繁复杂，但问题的本质无非就是这么几种：**时间片怎么分配？线程/进程怎么调度？通信的机制是什么？** 只是在不同的场景下加了具体
   的优化，但问题的本质没有改变，我们要善于抓住本质。
 - 要善于去粗存精，Android Framework 也是人写的，有精华也有糟粕，并不是每行代码你都需要问个为什么，很多时候没有那么多为什么，只是当时那种情况下就那样设计了。但是
   对于关键函数我们要去深究它的实现细节。
@@ -146,24 +144,3 @@ Android 系统架构图
 
 - [01Android 系统软件设计篇：软件设计原则](./doc/Android系统软件设计篇/01Android系统软件设计篇：软件设计原则.md)
 - [02Android 系统软件设计篇：设计模式](./doc/Android系统软件设计篇/02Android系统软件设计篇：设计模式.md)
-
-> 欢迎关注我们的微信公众号，新文章会第一时间发布到掘金博客与微信公众平台，我们也有自己的交流群，下方是 QQ 交流群，微信群已满，可以加我微信 allenwells 邀请入群。
-
-微信公众平台
-
-<img src="https://github.com/BeesAndroid/BeesAndroid/raw/master/art/wechat.png" width="300"/>
-
-QQ 交流群
-
-<img src="https://github.com/BeesAndroid/BeesAndroid/raw/master/art/qq.png" width="300"/>
-
-**关于此项目后续的计划**
-
-一个人的力量是有限的，后续此项目会做成一个团体项目，在 Github 建立新的工作组和新的 Repo，设计新的名字和 Logo，每篇文章会在文章头部注明作者的名字和 Github 账号。希望有更多的小伙伴参与进来，不仅仅
-是学习源码原理，也可以提升自己的技术品牌。
-
-后续的文章内容会按照难易程度进行分级，大家可以按照自己擅长的部分进行认领，还会定义文档规范、PR 规范与参与方式等，会先出一个草案供大家讨论，这是个比较细致的事情，刚来公司事情比较多，等忙完这一段
-再着手去做。
-
-大家有空也可以考虑一下自己擅长什么以及想要做哪一块的内容。以及项目运作的一些核心问题：① 如何保护作者的知识产权，署名？核心贡献者？② 项目的名字和 Logo ③ 文档规范、绘图规范、PR 规范。④ 项目的具体内容和目录。⑤ 参与方式，希望参与内容的
-可以成为作者，进行实际的内容创作。希望成为读者的可以参与校对，校对人的名字也会被写在文章头上，校对的任务是纠错，包括：错别字、错误排版、错误拼写以及可能有偏差的内容。
