@@ -9,9 +9,7 @@
 [![Stars](https://img.shields.io/github/forks/guoxiaoxing/android-open-source-project-analysis.svg)](https://jitpack.io/#guoxiaoxing/android-open-source-project-analysis)
 [![Forks](https://img.shields.io/github/issues/guoxiaoxing/android-open-source-project-analysis.svg)](https://jitpack.io/#guoxiaoxing/android-open-source-project-analysis)
 
-- [点击进入 GitBook 阅读](https://www.gitbook.com/book/guoxiaoxing/android-open-source-project-analysis/details)
-
-第一次阅览本系列文章，请参见[导读](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/导读.md)，更多文章请参见[文章目录](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/README.md)。
+第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
 - [Git repositories on android](https://android.googlesource.com/)
 - [Android Open Source Project](https://source.android.com/)
@@ -61,93 +59,93 @@ Android 系统架构图
 
 在正式阅读本系列文章之前，请先阅读导读相关内容，这会帮助你更加快捷的理解文章内容。
 
-- [导读](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/导读.md)
+- [导读](./doc/导读.md)
 
 ## Android 系统应用框架篇
 
 **Android 窗口管理框架**
 
-- [01Android 窗口管理框架：Android 窗口管理框架概述](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/01Android窗口管理框架：Android窗口管理框架概述.md)
-- [02Android 窗口管理框架：Android 应用视图的载体 View](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/02Android窗口管理框架：Android应用视图载体View.md)
-- [03Android 窗口管理框架：Android 应用视图的管理者 Window](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/03Android窗口管理框架：Android应用视图管理者Window.md)
-- [04Android 窗口管理框架：Android 应用窗口管理服务 WindowServiceManager](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/04Android窗口管理框架：Android应用窗口管理服务WindowServiceManager.md)
-- [05Android 窗口管理框架：Android 布局解析者 LayoutInflater](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/05Android窗口管理框架：Android布局解析者LayoutInflater.md)
-- [06Android 窗口管理框架：Android 列表控件 RecyclerView](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android窗口管理框架/06Android窗口管理框架：Android列表控件RecyclerView.md)
+- [01Android 窗口管理框架：Android 窗口管理框架概述](./doc/Android系统应用框架篇/Android窗口管理框架/01Android窗口管理框架：Android窗口管理框架概述.md)
+- [02Android 窗口管理框架：Android 应用视图的载体 View](./doc/Android系统应用框架篇/Android窗口管理框架/02Android窗口管理框架：Android应用视图载体View.md)
+- [03Android 窗口管理框架：Android 应用视图的管理者 Window](./doc/Android系统应用框架篇/Android窗口管理框架/03Android窗口管理框架：Android应用视图管理者Window.md)
+- [04Android 窗口管理框架：Android 应用窗口管理服务 WindowServiceManager](./doc/Android系统应用框架篇/Android窗口管理框架/04Android窗口管理框架：Android应用窗口管理服务WindowServiceManager.md)
+- [05Android 窗口管理框架：Android 布局解析者 LayoutInflater](./doc/Android系统应用框架篇/Android窗口管理框架/05Android窗口管理框架：Android布局解析者LayoutInflater.md)
+- [06Android 窗口管理框架：Android 列表控件 RecyclerView](./doc/Android系统应用框架篇/Android窗口管理框架/06Android窗口管理框架：Android列表控件RecyclerView.md)
 
 **Android 组件管理框架**
 
-- [01Android 组件管理框架：Android 组件管理框架概述](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/01Android组件管理框架：组件管理框架概述.md)
-- [02Android 组件管理框架：Android 组件管理服务 ActivityServiceManager](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/02Android组件管理框架：Android组件管理服务ActivityServiceManager.md)
-- [03Android 组件管理框架：Android 视图容器 Activity](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/03Android组件管理框架：Android视图容器Activity.md)
-- [04Android 组件管理框架：Android 视图片段 Fragment](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/04Android组件管理框架：Android视图片段Fragment.md)
-- [05Android 组件管理框架：Android 后台服务 Service](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/05Android组件管理框架：Android后台服务Service.md)
-- [06Android 组件管理框架：Android 内容提供者 ContentProvider](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/06Android组件管理框架：Android内容提供者ContentProvider.md)
-- [07Android 组件管理框架：Android 广播接收者 BroadcastReceiver](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/07Android组件管理框架：Android广播接收者BroadcastReceiver.md)
-- [08Android 组件管理框架：Android 应用上下文 Context](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件管理框架/08Android组件管理框架：Android应用上下文Context.md)
+- [01Android 组件管理框架：Android 组件管理框架概述](./doc/Android系统应用框架篇/Android组件管理框架/01Android组件管理框架：组件管理框架概述.md)
+- [02Android 组件管理框架：Android 组件管理服务 ActivityServiceManager](./doc/Android系统应用框架篇/Android组件管理框架/02Android组件管理框架：Android组件管理服务ActivityServiceManager.md)
+- [03Android 组件管理框架：Android 视图容器 Activity](./doc/Android系统应用框架篇/Android组件管理框架/03Android组件管理框架：Android视图容器Activity.md)
+- [04Android 组件管理框架：Android 视图片段 Fragment](./doc/Android系统应用框架篇/Android组件管理框架/04Android组件管理框架：Android视图片段Fragment.md)
+- [05Android 组件管理框架：Android 后台服务 Service](./doc/Android系统应用框架篇/Android组件管理框架/05Android组件管理框架：Android后台服务Service.md)
+- [06Android 组件管理框架：Android 内容提供者 ContentProvider](./doc/Android系统应用框架篇/Android组件管理框架/06Android组件管理框架：Android内容提供者ContentProvider.md)
+- [07Android 组件管理框架：Android 广播接收者 BroadcastReceiver](./doc/Android系统应用框架篇/Android组件管理框架/07Android组件管理框架：Android广播接收者BroadcastReceiver.md)
+- [08Android 组件管理框架：Android 应用上下文 Context](./doc/Android系统应用框架篇/Android组件管理框架/08Android组件管理框架：Android应用上下文Context.md)
 
 **Android 包管理框架**
 
-- [01Android 包管理框架：APK 的打包流程](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android包管理框架/01Android包管理框架：APK的打包流程.md)
-- [02Android 包管理框架：APK 的安装流程](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android包管理框架/02Android包管理框架：APK的安装流程.md)
-- [03Android 包管理框架：APK 的加载流程](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android包管理框架/03Android包管理框架：APK的加载流程.md)
+- [01Android 包管理框架：APK 的打包流程](./doc/Android系统应用框架篇/Android包管理框架/01Android包管理框架：APK的打包流程.md)
+- [02Android 包管理框架：APK 的安装流程](./doc/Android系统应用框架篇/Android包管理框架/02Android包管理框架：APK的安装流程.md)
+- [03Android 包管理框架：APK 的加载流程](./doc/Android系统应用框架篇/Android包管理框架/03Android包管理框架：APK的加载流程.md)
 
 **Android 资源管理框架**
 
-- [01Android 资源管理框架：资源管理器 AssetManager](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android资源管理管理框架/01Android资源管理框架：资源管理器AssetManager.md)
+- [01Android 资源管理框架：资源管理器 AssetManager](./doc/Android系统应用框架篇/Android资源管理管理框架/01Android资源管理框架：资源管理器AssetManager.md)
 
 ## Android 系统底层框架篇
 
 **Android 进程框架**
 
-- [01Android 进程框架：进程的创建、启动与调度流程](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android进程框架/01Android进程框架：进程的创建、启动与调度流程.md)
-- [02Android 进程框架：线程与线程池](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android进程框架/02Android进程框架：线程与线程池.md)
-- [03Android 进程框架：线程通信的桥梁 Handler](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android进程框架/03Android进程框架：线程通信的桥梁Handler.md)
-- [04Android 进程框架：进程通信的桥梁 Binder](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android进程框架/04Android进程框架：进程通信的桥梁Binder.md)
-- [05Android 进程框架：进程通信的桥梁 Socket](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android进程框架/05Android进程框架：进程通信的桥梁Socket.md)
+- [01Android 进程框架：进程的创建、启动与调度流程](./doc/Android系统底层框架篇/Android进程框架/01Android进程框架：进程的创建、启动与调度流程.md)
+- [02Android 进程框架：线程与线程池](./doc/Android系统底层框架篇/Android进程框架/02Android进程框架：线程与线程池.md)
+- [03Android 进程框架：线程通信的桥梁 Handler](./doc/Android系统底层框架篇/Android进程框架/03Android进程框架：线程通信的桥梁Handler.md)
+- [04Android 进程框架：进程通信的桥梁 Binder](./doc/Android系统底层框架篇/Android进程框架/04Android进程框架：进程通信的桥梁Binder.md)
+- [05Android 进程框架：进程通信的桥梁 Socket](./doc/Android系统底层框架篇/Android进程框架/05Android进程框架：进程通信的桥梁Socket.md)
 
 **Android 内存框架**
 
-- [01Android 内存框架：内存管理系统](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android内存框架/01Android内存框架：内存管理系统.md)
-- [02Android 内存框架：Ashmem 匿名共享内存系统](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android内存框架/02Android内存框架：Ashmem匿名共享内存系统.md)
+- [01Android 内存框架：内存管理系统](./doc/Android系统底层框架篇/Android内存框架/01Android内存框架：内存管理系统.md)
+- [02Android 内存框架：Ashmem 匿名共享内存系统](./doc/Android系统底层框架篇/Android内存框架/02Android内存框架：Ashmem匿名共享内存系统.md)
 
 **Android 虚拟机框架**
 
-- [01Android 虚拟机框架：Java 类加载机制](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统底层框架篇/Android虚拟机框架/01Android虚拟机框架：Java类加载机制.md)
+- [01Android 虚拟机框架：Java 类加载机制](./doc/Android系统底层框架篇/Android虚拟机框架/01Android虚拟机框架：Java类加载机制.md)
 
 ## Android 应用开发实践篇
 
 **Android 界面开发**
 
-- [01Android 界面开发：View 自定义实践概览](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
-- [02Android 界面开发：View 自定义实践布局篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
-- [03Android 界面开发：View 自定义实践绘制篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/03Android界面开发：View自定义实践绘制篇.md)
-- [04Android 界面开发：View 自定义实践交互篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/04Android界面开发：View自定义实践交互篇.md)
+- [01Android 界面开发：View 自定义实践概览](./doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
+- [02Android 界面开发：View 自定义实践布局篇](./doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
+- [03Android 界面开发：View 自定义实践绘制篇](./doc/Android应用开发实践篇/Android界面开发/03Android界面开发：View自定义实践绘制篇.md)
+- [04Android 界面开发：View 自定义实践交互篇](./doc/Android应用开发实践篇/Android界面开发/04Android界面开发：View自定义实践交互篇.md)
 
 **Android 应用优化**
 
-- [01Android 应用优化：优化概述](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/01Android应用优化：优化概述.md)
-- [02Android 应用优化：启动优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/02Android应用优化：启动优化.md)
-- [03Android 应用优化：界面优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/03Android应用优化：界面优化.md)
-- [04Android 应用优化：内存优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/04Android应用优化：内存优化.md)
-- [05Android 应用优化：图像优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/05Android应用优化：图像优化.md)
-- [06Android 应用优化：网络优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/06Android应用优化：网络优化.md)
-- [07Android 应用优化：并发优化](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/07Android应用优化：并发优化.md)
-- [08Android 应用优化：优化工具](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android应用优化/08Android应用优化：优化工具.md)
+- [01Android 应用优化：优化概述](./doc/Android应用开发实践篇/Android应用优化/01Android应用优化：优化概述.md)
+- [02Android 应用优化：启动优化](./doc/Android应用开发实践篇/Android应用优化/02Android应用优化：启动优化.md)
+- [03Android 应用优化：界面优化](./doc/Android应用开发实践篇/Android应用优化/03Android应用优化：界面优化.md)
+- [04Android 应用优化：内存优化](./doc/Android应用开发实践篇/Android应用优化/04Android应用优化：内存优化.md)
+- [05Android 应用优化：图像优化](./doc/Android应用开发实践篇/Android应用优化/05Android应用优化：图像优化.md)
+- [06Android 应用优化：网络优化](./doc/Android应用开发实践篇/Android应用优化/06Android应用优化：网络优化.md)
+- [07Android 应用优化：并发优化](./doc/Android应用开发实践篇/Android应用优化/07Android应用优化：并发优化.md)
+- [08Android 应用优化：优化工具](./doc/Android应用开发实践篇/Android应用优化/08Android应用优化：优化工具.md)
 
 **Android 媒体开发**
 
-- [01Android 媒体开发：Bitmap 实践指南](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android媒体开发/01Android媒体开发：Bitmap实践指南.md)
-- [02Android 媒体开发：Camera 实践指南](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android媒体开发/02Android媒体开发：Camera实践指南.md)
+- [01Android 媒体开发：Bitmap 实践指南](./doc/Android应用开发实践篇/Android媒体开发/01Android媒体开发：Bitmap实践指南.md)
+- [02Android 媒体开发：Camera 实践指南](./doc/Android应用开发实践篇/Android媒体开发/02Android媒体开发：Camera实践指南.md)
 
 **其他**
 
-- [01Android 混合编程：WebView 实践](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/其他/01Android混合编程：WebView实践.md)
-- [02Android 网络编程：网络编程实践](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/其他/02Android网络编程：网络编程实践.md)
+- [01Android 混合编程：WebView 实践](./doc/Android应用开发实践篇/其他/01Android混合编程：WebView实践.md)
+- [02Android 网络编程：网络编程实践](./doc/Android应用开发实践篇/其他/02Android网络编程：网络编程实践.md)
 
 ## Android 系统软件设计篇
 
-- [01Android 系统软件设计篇：软件设计原则](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统软件设计篇/01Android系统软件设计篇：软件设计原则.md)
-- [02Android 系统软件设计篇：设计模式](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统软件设计篇/02Android系统软件设计篇：设计模式.md)
+- [01Android 系统软件设计篇：软件设计原则](./doc/Android系统软件设计篇/01Android系统软件设计篇：软件设计原则.md)
+- [02Android 系统软件设计篇：设计模式](./doc/Android系统软件设计篇/02Android系统软件设计篇：设计模式.md)
 
 > 欢迎关注我们的微信公众号，新文章会第一时间发布到掘金博客与微信公众平台，我们也有自己的交流群，下方是 QQ 交流群，微信群已满，可以加我微信 allenwells 邀请入群。
 

@@ -1,18 +1,18 @@
-# Android系统应用框架篇：Service启动流程
+# Android 系统应用框架篇：Service 启动流程
 
-第一次阅览本系列文章，请参见[导读](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/导读.md)，更多文章请参见[文章目录](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/README.md)。
+第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
-本篇文章我们来分析Service组件在进程内的绑定流程。
+本篇文章我们来分析 Service 组件在进程内的绑定流程。
 
-在分析具体的绑定流程之前，我们先简单回忆Service组件绑定的用法。
+在分析具体的绑定流程之前，我们先简单回忆 Service 组件绑定的用法。
 
-1 定义一个Activity，它将要绑定一个Service组件运行后台任务。
+1 定义一个 Activity，它将要绑定一个 Service 组件运行后台任务。
 
 ```java
 public class ClientActivity extends AppCompatActivity  {
 
     private IServerService serverService;
-    
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -36,7 +36,7 @@ public class ClientActivity extends AppCompatActivity  {
 }
 ```
 
-2 在定义一个ServerService，它即将要被一个Activity组件绑定。
+2 在定义一个 ServerService，它即将要被一个 Activity 组件绑定。
 
 ```java
 public class ServerService extends Service  {
@@ -80,15 +80,15 @@ ClientActivity组件可以通过这个Binder对象与ServerService组件建立�
 绑定在ClientActivity组件内部了。
 ```
 
-**Service组件在进程内绑定序列图**
+**Service 组件在进程内绑定序列图**
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/art/app/10/service_bind_sequence.png">
+<img src="./art/app/10/service_bind_sequence.png">
 
 我们来看一看具体的流程。
 
-注：ClientActivity：要绑定ServerService的Activity组件。ServerService：将要被绑定的Service组件。
+注：ClientActivity：要绑定 ServerService 的 Activity 组件。ServerService：将要被绑定的 Service 组件。
 
-## Service组件绑定路程
+## Service 组件绑定路程
 
 ### 1 ClientActivity.onCreate()
 
@@ -96,7 +96,7 @@ ClientActivity组件可以通过这个Binder对象与ServerService组件建立�
 public class ClientActivity extends AppCompatActivity  {
 
     private IServerService serverService;
-    
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -120,10 +120,10 @@ public class ClientActivity extends AppCompatActivity  {
 }
 ```
 
-可以看到ServiceConnection被作为参数传递到了bindService()方法中，当Service组件成功绑定后，serviceConnection的onServiceConnected()
-方法会被调用以便ClientActivity可以获得ServerService组件的访问接口。
+可以看到 ServiceConnection 被作为参数传递到了 bindService()方法中，当 Service 组件成功绑定后，serviceConnection 的 onServiceConnected()
+方法会被调用以便 ClientActivity 可以获得 ServerService 组件的访问接口。
 
-它接着会调用ContextWrapper.bindService()方法。
+它接着会调用 ContextWrapper.bindService()方法。
 
 ### 2 ContextWrapper.bindService()
 
@@ -136,10 +136,11 @@ public class ContextWrapper extends Context {
     }
 }
 ```
->注：Context是个抽象类，它的实现类是ContextImpl，ContextWrapper作为一个代理类，持有Context的引用，代理ContextImpl的功能，我们
-在调用Context里的方法，最终通过ContextWrapper调用ContextImpl里的方法，从而隐藏ContextImpl的实现。
 
-Activity里调用bindService()，最终会通过ContextWrapper调用到ContextImpl.bindService()方法,我们直接来看ContextImpl.bindService()的实现。
+> 注：Context 是个抽象类，它的实现类是 ContextImpl，ContextWrapper 作为一个代理类，持有 Context 的引用，代理 ContextImpl 的功能，我们
+> 在调用 Context 里的方法，最终通过 ContextWrapper 调用 ContextImpl 里的方法，从而隐藏 ContextImpl 的实现。
+
+Activity 里调用 bindService()，最终会通过 ContextWrapper 调用到 ContextImpl.bindService()方法,我们直接来看 ContextImpl.bindService()的实现。
 
 ### 3 ContextImpl.bindService()
 
@@ -177,15 +178,16 @@ class ContextImpl extends Context {
 }
 ```
 
-该方法主要做了2件事情：
+该方法主要做了 2 件事情：
 
 ```
 1 调用LoadedApk.getServiceDispatcher()方法将ServiceConnection对象封装成了一个实现了IServiceConnection接口的
 Binder本地对象.
 2 将Binder对象、Intent信息等发送给ActivityManagerService，以便它可以去启动该Service组件。
 ```
-我们首先来看看ServiceConnection对象封装成了一个实现了IServiceConnection接口的Binder本地对象的。
-它调用的方法时oadedApk.getServiceDispatcher()，该方法传入了以下4个参数：
+
+我们首先来看看 ServiceConnection 对象封装成了一个实现了 IServiceConnection 接口的 Binder 本地对象的。
+它调用的方法时 oadedApk.getServiceDispatcher()，该方法传入了以下 4 个参数：
 
 ```
 conn：ServiceConnection对象对象。
@@ -194,6 +196,7 @@ getOuterContext()：它是一个Context对象，指向的是外部的Activity组
 mMainThread.getHandler()：返回ActivityThread内部的Handler变量mH。
 flags：启动的flags。
 ```
+
 getServiceDispatcher()方法的实现如下所示：
 
 ```java
@@ -223,12 +226,12 @@ final class LoadedApk {
         }
     }
 }
-````
+```
 
->ServiceDispatcher：每一个绑定过Service组件的Activity组件都是在LoadedApk类中又一个对应的ServiceDispatcher对象，它负责将
-这个被绑定的Service组件与绑定它的Activity组件关联在一起。
+> ServiceDispatcher：每一个绑定过 Service 组件的 Activity 组件都是在 LoadedApk 类中又一个对应的 ServiceDispatcher 对象，它负责将
+> 这个被绑定的 Service 组件与绑定它的 Activity 组件关联在一起。
 
-getServiceDispatcher()方法会先查找ServiceDispatcher对象，如果没有则创建一个ServiceDispatcher对象，最后调用ServiceDispatcher对象的
+getServiceDispatcher()方法会先查找 ServiceDispatcher 对象，如果没有则创建一个 ServiceDispatcher 对象，最后调用 ServiceDispatcher 对象的
 getIServiceConnection()方法。
 
 ```java
@@ -282,19 +285,19 @@ getIServiceConnection()方法。
             mLocation.fillInStackTrace();
             mFlags = flags;
         }
-        
+
         ...
-        
+
         IServiceConnection getIServiceConnection() {
             return mIServiceConnection;
         }
-        
+
         ...
 }
 ```
 
-当ContextImpl.bindServce()中将ServiceConnection对象封装成一个InnerConnection对象之后，就会调用ActivityManagerNative.getDefault().bindService()方法
-将ServerService组件绑定到ClientActivity组件中。
+当 ContextImpl.bindServce()中将 ServiceConnection 对象封装成一个 InnerConnection 对象之后，就会调用 ActivityManagerNative.getDefault().bindService()方法
+将 ServerService 组件绑定到 ClientActivity 组件中。
 
 ### 4 ActivityManagerProxy.bindService()
 
@@ -322,17 +325,18 @@ class ActivityManagerProxy implements IActivityManager{
     }
 }
 ```
-这同样是一个典型的AIDL跨进程通信的调用过程，通过内部的Binder代理对象mRemote向ActivityManagerService发送一个BIND_SERVICE_TRANSACTION
+
+这同样是一个典型的 AIDL 跨进程通信的调用过程，通过内部的 Binder 代理对象 mRemote 向 ActivityManagerService 发送一个 BIND_SERVICE_TRANSACTION
 进程通信请求。
 
-该方法接着会调用ActivityManagerService.bindService()方法，我们来看下它的实现。
+该方法接着会调用 ActivityManagerService.bindService()方法，我们来看下它的实现。
 
-### 5 ActivityManagerService.bindService(IApplicationThread caller, IBinder token, Intent service, String resolvedType, IServiceConnection connection, int flags) 
+### 5 ActivityManagerService.bindService(IApplicationThread caller, IBinder token, Intent service, String resolvedType, IServiceConnection connection, int flags)
 
 ```java
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-        
+
     public int bindService(IApplicationThread caller, IBinder token,
                 Intent service, String resolvedType,
                 IServiceConnection connection, int flags) {
@@ -340,7 +344,7 @@ public final class ActivityManagerService extends ActivityManagerNative
             if (service != null && service.hasFileDescriptors() == true) {
                 throw new IllegalArgumentException("File descriptors passed in Intent");
             }
-            
+
             //1 创建启动Service组件所需的各种对象，例如：ProcessRecord对象、ActivityRecord对象与ServiceRecord对象等
             synchronized(this) {
                 if (DEBUG_SERVICE) Slog.v(TAG, "bindService: " + service
@@ -364,10 +368,10 @@ public final class ActivityManagerService extends ActivityManagerNative
                     }
                     activity = (ActivityRecord)mMainStack.mHistory.get(aindex);
                 }
-    
+
                 int clientLabel = 0;
                 PendingIntent clientIntent = null;
-                
+
                 if (callerApp.info.uid == Process.SYSTEM_UID) {
                     // Hacky kind of thing -- allow system stuff to tell us
                     // what they are, so we can report this elsewhere for
@@ -387,7 +391,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                         }
                     }
                 }
-                
+
                 ServiceLookupResult res =
                     retrieveServiceLocked(service, resolvedType,
                             Binder.getCallingPid(), Binder.getCallingUid());
@@ -397,24 +401,24 @@ public final class ActivityManagerService extends ActivityManagerNative
                 if (res.record == null) {
                     return -1;
                 }
-                
+
                 //创建ServiceRecord对象，该对象描述即将要被绑定的Service组件
                 ServiceRecord s = res.record;
-    
+
                 final long origId = Binder.clearCallingIdentity();
-    
+
                 if (unscheduleServiceRestartLocked(s)) {
                     if (DEBUG_SERVICE) Slog.v(TAG, "BIND SERVICE WHILE RESTART PENDING: "
                             + s);
                 }
-                
+
                 //创建AppBindRecord对象，表示ServiceRecord所描述的Service组件时绑定在callerApp所
                 //描述的进程中的
                 AppBindRecord b = s.retrieveAppBindingLocked(service, callerApp);
                 //创建ConnectionRecord对象，该对象描述组件绑定的情况。
                 ConnectionRecord c = new ConnectionRecord(b, activity,
                         connection, flags, clientLabel, clientIntent);
-    
+
                 IBinder binder = connection.asBinder();
                 //因为一个Service组件可以被多个Activity组件使用同一个InnerConnection对象来绑定，因此
                 //会有多个ConnectionRecord对象，这些对象被保存一个列表中。
@@ -438,7 +442,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                     mServiceConnections.put(binder, clist);
                 }
                 clist.add(c);
-    
+
                 if ((flags&Context.BIND_AUTO_CREATE) != 0) {
                     s.lastActivity = SystemClock.uptimeMillis();
                     //2 调用bringUpServiceLocked()来启动Service组件，等到这个Service组件启动起来之后，
@@ -447,17 +451,17 @@ public final class ActivityManagerService extends ActivityManagerNative
                         return 0;
                     }
                 }
-    
+
                 if (s.app != null) {
                     // This could have made the service more important.
                     updateOomAdjLocked(s.app);
                 }
-    
+
                 if (DEBUG_SERVICE) Slog.v(TAG, "Bind " + s + " with " + b
                         + ": received=" + b.intent.received
                         + " apps=" + b.intent.apps.size()
                         + " doRebind=" + b.intent.doRebind);
-    
+
                 if (s.app != null && b.intent.received) {
                     // Service is already running, so we can immediately
                     // publish the connection.
@@ -468,7 +472,7 @@ public final class ActivityManagerService extends ActivityManagerNative
                                 + " to connection " + c.conn.asBinder()
                                 + " (in " + c.binding.client.processName + ")", e);
                     }
-    
+
                     // If this is the first app connected back to this binding,
                     // and the service had previously asked to be told when
                     // rebound, then do so.
@@ -478,49 +482,51 @@ public final class ActivityManagerService extends ActivityManagerNative
                 } else if (!b.intent.requested) {
                     requestServiceBindingLocked(s, b.intent, false);
                 }
-    
+
                 Binder.restoreCallingIdentity(origId);
             }
-    
+
             return 1;
-        }        
+        }
 }
 ```
-该方法用来处理BIND_SERVICE_TRANSACTION进程通信请求，该方法主要做了2件事情：
+
+该方法用来处理 BIND_SERVICE_TRANSACTION 进程通信请求，该方法主要做了 2 件事情：
 
 ```
 1 创建启动Service组件所需的各种对象，例如：ProcessRecord对象、ActivityRecord对象与ServiceRecord对象等
 2 调用bringUpServiceLocked()来启动Service组件，等到这个Service组件启动起来之后，ActivityManagerService再将它与Activity组件绑定起来
 ```
-我们接着来看bringUpServiceLocked()的实现。
 
-### 6 ActivityManagerService.bringUpServiceLocked(ServiceRecord r, int intentFlags, boolean whileRestarting) 
+我们接着来看 bringUpServiceLocked()的实现。
+
+### 6 ActivityManagerService.bringUpServiceLocked(ServiceRecord r, int intentFlags, boolean whileRestarting)
 
 ```java
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-        
+
      private final boolean bringUpServiceLocked(ServiceRecord r,
                 int intentFlags, boolean whileRestarting) {
             //Slog.i(TAG, "Bring up service:");
             //r.dump("  ");
-    
+
             if (r.app != null && r.app.thread != null) {
                 sendServiceArgsLocked(r, false);
                 return true;
             }
-    
+
             if (!whileRestarting && r.restartDelay > 0) {
                 // If waiting for a restart, then do nothing.
                 return true;
             }
-    
+
             if (DEBUG_SERVICE) Slog.v(TAG, "Bringing up " + r + " " + r.intent);
-    
+
             // We are now bringing the service up, so no longer in the
             // restarting state.
             mRestartingServices.remove(r);
-            
+
             //获取ServiceRecord对象里的processName属性，查找是否已经存在一个对应ProcessRecord的对象app
             //如果存在则说明该Service组件所在的应用进程已经运行起来了，则直接调用realStartServiceLocked()
             //方法启动这个Service组件。
@@ -533,11 +539,11 @@ public final class ActivityManagerService extends ActivityManagerNative
                 } catch (RemoteException e) {
                     Slog.w(TAG, "Exception when starting service " + r.shortName, e);
                 }
-    
+
                 // If a dead object exception was thrown -- fall through to
                 // restart the application.
             }
-    
+
             // Not running -- get it started, and enqueue this service record
             // to be executed when the app comes up.
             if (startProcessLocked(appName, r.appInfo, true, intentFlags,
@@ -549,39 +555,39 @@ public final class ActivityManagerService extends ActivityManagerNative
                 bringDownServiceLocked(r, true);
                 return false;
             }
-            
+
             if (!mPendingServices.contains(r)) {
                 mPendingServices.add(r);
             }
-            
+
             return true;
-        }        
+        }
 }
-        
+
 ```
 
-该方法获取ServiceRecord对象里的processName属性，查找是否已经存在一个对应ProcessRecord的对象app如果存在则说明该Service组件所在的应用进程已经运行起
-来了，则直接调用realStartServiceLocked()方法启动这个Service组件。
+该方法获取 ServiceRecord 对象里的 processName 属性，查找是否已经存在一个对应 ProcessRecord 的对象 app 如果存在则说明该 Service 组件所在的应用进程已经运行起
+来了，则直接调用 realStartServiceLocked()方法启动这个 Service 组件。
 
 ### 7 ActivityManagerService.realStartServiceLocked(ServiceRecord r, ProcessRecord app)
 
 ```java
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-        
+
     private final void realStartServiceLocked(ServiceRecord r,
                 ProcessRecord app) throws RemoteException {
             if (app.thread == null) {
                 throw new RemoteException();
             }
-    
+
             r.app = app;
             r.restartTime = r.lastActivity = SystemClock.uptimeMillis();
-    
+
             app.services.add(r);
             bumpServiceExecutingLocked(r, "create");
             updateLruProcessLocked(app, true, true);
-    
+
             boolean created = false;
             try {
                 mStringBuilder.setLength(0);
@@ -605,9 +611,9 @@ public final class ActivityManagerService extends ActivityManagerNative
                     scheduleServiceRestartLocked(r, false);
                 }
             }
-    
+
             requestServiceBindingsLocked(r);
-            
+
             // If the service is in the started state, and there are no
             // pending arguments, then fake up one so its onStartCommand() will
             // be called.
@@ -618,11 +624,12 @@ public final class ActivityManagerService extends ActivityManagerNative
                 }
                 r.pendingStarts.add(new ServiceRecord.StartItem(r, r.lastStartId, null, -1));
             }
-            
+
             sendServiceArgsLocked(r, true);
-        }            
+        }
 }
 ```
+
 ### 8 ApplicationThreadProxy.scheduleCreateService(IBinder token, ServiceInfo info)
 
 ```java
@@ -642,28 +649,32 @@ class ApplicationThreadProxy implements IApplicationThread {
 
 ```
 
-该方法向ServerService组件所在的进程发送一个SCHEDULE_CREATE_SERVICE_TRANSACTION进程间通信请求，以便
-它可以把ServerService组件启动起来。
+该方法向 ServerService 组件所在的进程发送一个 SCHEDULE_CREATE_SERVICE_TRANSACTION 进程间通信请求，以便
+它可以把 ServerService 组件启动起来。
 
-接下来的流程大家就很熟悉了。ApplicationThread.scheduleCreateService()调用ActivityThread.queueOrSendMessage()，ActivityThread
-发出CREATE_SERVICE的Message，最终调用ActivityThreaqd.handleCreateService()来创建Service。这一部分属于Service的创建流程，可以
-参见文章[10Android系统应用框架篇：Service启动流程](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android系统应用框架篇/Android组件框架/10Android系统应用框架篇：Service启动流程.md)。
+接下来的流程大家就很熟悉了。ApplicationThread.scheduleCreateService()调用 ActivityThread.queueOrSendMessage()，ActivityThread
+发出 CREATE_SERVICE 的 Message，最终调用 ActivityThreaqd.handleCreateService()来创建 Service。这一部分属于 Service 的创建流程，可以
+参见文章[10Android 系统应用框架篇：Service 启动流程](./doc/Android系统应用框架篇/Android组件框架/10Android系统应用框架篇：Service启动流程.md)。
 
 ### 9 ApplicationThread.scheduleCreateService()
+
 ### 10 ActivityThread.queueOrSendMessage()
+
 ### 11 H.handleMesssage()
+
 ### 12 ActivityThreaqd.handleCreateService()
+
 ### 13 ServerService.onCreate()
 
-当ServerService.onCreate()被调用之后，ServerService组件就被启动起来了。接下来我们继续回到第7步ActivityManagerService.realStartServiceLocked(ServiceRecord r, ProcessRecord app)
-它会继续调用 requestServiceBindingsLocked()方法来绑定Service组件。
+当 ServerService.onCreate()被调用之后，ServerService 组件就被启动起来了。接下来我们继续回到第 7 步 ActivityManagerService.realStartServiceLocked(ServiceRecord r, ProcessRecord app)
+它会继续调用 requestServiceBindingsLocked()方法来绑定 Service 组件。
 
 ### 14 ActivityManagerService.requestServiceBindingsLocked(ServiceRecord r)
 
 ```java
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-        
+
     private final void requestServiceBindingsLocked(ServiceRecord r) {
         Iterator<IntentBindRecord> bindings = r.bindings.values().iterator();
         while (bindings.hasNext()) {
@@ -674,8 +685,8 @@ public final class ActivityManagerService extends ActivityManagerNative
                 break;
             }
         }
-    } 
-    
+    }
+
     private final boolean requestServiceBindingLocked(ServiceRecord r,
                 IntentBindRecord i, boolean rebind) {
             if (r.app == null || r.app.thread == null) {
@@ -702,7 +713,7 @@ public final class ActivityManagerService extends ActivityManagerNative
 }
 ```
 
-该方法最终会调用ApplicationThreadProxy.scheduleBindService()方法去完成Service组件的绑定。
+该方法最终会调用 ApplicationThreadProxy.scheduleBindService()方法去完成 Service 组件的绑定。
 
 ### 15 ApplicationThreadProxy.scheduleBindService(IBinder token, Intent intent, boolean rebind)
 
@@ -721,14 +732,18 @@ class ApplicationThreadProxy implements IApplicationThread {
     }
 }
 ```
-ApplicationThreadProxy调用scheduleBindService()方法向ApplicationThread发送一个SCHEDULE_BIND_SERVICE_TRANSACTION进程通信请求，
-这个ApplicationThread代表的正是ClientActivity所在的进程。
 
-接下来的流程还是跟上面创建Service一样，最后走到了ActivityThreaqd.handleBindService()方法来绑定Service组件。
+ApplicationThreadProxy 调用 scheduleBindService()方法向 ApplicationThread 发送一个 SCHEDULE_BIND_SERVICE_TRANSACTION 进程通信请求，
+这个 ApplicationThread 代表的正是 ClientActivity 所在的进程。
+
+接下来的流程还是跟上面创建 Service 一样，最后走到了 ActivityThreaqd.handleBindService()方法来绑定 Service 组件。
 
 ### 16 ApplicationThread.scheduleCreateService()
+
 ### 17 ActivityThread.queueOrSendMessage()
+
 ### 18 H.handleMesssage()
+
 ### 19 ActivityThreaqd.handleBindService()
 
 ```java
@@ -771,7 +786,7 @@ public final class ActivityThread {
 
 ```
 
->BindServiceData：封装了一些绑定Service组件的信息。
+> BindServiceData：封装了一些绑定 Service 组件的信息。
 
 ```java
 private static final class BindServiceData {
@@ -782,9 +797,9 @@ private static final class BindServiceData {
         return "BindServiceData{token=" + token + " intent=" + intent + "}";
     }
 }
-````
+```
 
-该方法主要做了3件事情：
+该方法主要做了 3 件事情：
 
 ```
 1 以data.token为key获取前面已经启动ServerService组件。
@@ -792,10 +807,10 @@ private static final class BindServiceData {
 3 调用ActivityMangerProxy.publishService()将该Binder对象传递给ActivityManagerService
 
 ```
-我们接着来看ServerService.onBind()的实现。
+
+我们接着来看 ServerService.onBind()的实现。
 
 ### 20 ServerService.onBind()
-
 
 ```java
 public class ServerService extends Service  {
@@ -824,10 +839,11 @@ public class ServerService extends Service  {
     }
 }
 ```
-该方法将内部的一个binder对象返回给了onBind()方法，通过ServerBinder内部的getService()方法就可以获得访问
-ServerService组件的接口。
 
-调用用onBind()方法后，接着调用ActivityMangerProxy.publishService()将该Binder对象传递给ActivityManagerService。
+该方法将内部的一个 binder 对象返回给了 onBind()方法，通过 ServerBinder 内部的 getService()方法就可以获得访问
+ServerService 组件的接口。
+
+调用用 onBind()方法后，接着调用 ActivityMangerProxy.publishService()将该 Binder 对象传递给 ActivityManagerService。
 
 ### 21 ActivityManagerProxy.publishService(IBinder token, Intent intent, IBinder service)
 
@@ -849,7 +865,7 @@ class ActivityManagerProxy implements IActivityManager{
 }
 ```
 
-ServerService组件所在进程通过ActivityManagerProxy向ActivityManagerService发送一个PUBLISH_SERVICE_TRANSACTION进程间
+ServerService 组件所在进程通过 ActivityManagerProxy 向 ActivityManagerService 发送一个 PUBLISH_SERVICE_TRANSACTION 进程间
 通信请求。
 
 ### 22 ActivityManagerService.publishService(IBinder token, Intent intent, IBinder service)
@@ -857,21 +873,21 @@ ServerService组件所在进程通过ActivityManagerProxy向ActivityManagerServi
 ```java
 public final class ActivityManagerService extends ActivityManagerNative
         implements Watchdog.Monitor, BatteryStatsImpl.BatteryCallback {
-        
+
      public void publishService(IBinder token, Intent intent, IBinder service) {
             // Refuse possible leaked fiInle descriptors
             if (intent != null && intent.hasFileDescriptors() == true) {
                 throw new IllegalArgumentException("File descriptors passed in Intent");
             }
-    
+
             synchronized(this) {
                 if (!(token instanceof ServiceRecord)) {
                     throw new IllegalArgumentException("Invalid service token");
                 }
                 ServiceRecord r = (ServiceRecord)token;
-    
+
                 final long origId = Binder.clearCallingIdentity();
-    
+
                 if (DEBUG_SERVICE) Slog.v(TAG, "PUBLISHING " + r
                         + " " + intent + ": " + service);
                 if (r != null) {
@@ -915,18 +931,19 @@ public final class ActivityManagerService extends ActivityManagerNative
                             }
                         }
                     }
-    
+
                     serviceDoneExecutingLocked(r, mStoppingServices.contains(r));
-    
+
                     Binder.restoreCallingIdentity(origId);
                 }
             }
-        }        
-}        
+        }
+}
 ```
-该方法主要用来处理ServerService组件所在进程通过ActivityManagerProxy向ActivityManagerService发送一个PUBLISH_SERVICE_TRANSACTION进程间通信请求。
 
-我们先来看看传递进这个方法的3个参数：
+该方法主要用来处理 ServerService 组件所在进程通过 ActivityManagerProxy 向 ActivityManagerService 发送一个 PUBLISH_SERVICE_TRANSACTION 进程间通信请求。
+
+我们先来看看传递进这个方法的 3 个参数：
 
 ```
 IBinder token：指向的是一个ServiceRecord对象，用来描述ClientActivity请求绑定的ServerService组件。
@@ -934,14 +951,14 @@ Intent intent：Intent对象。
 IBinder service：指向ServerService组件内部的一个Binder本地对象。
 ```
 
-该方法会接着调用InnerConnection.connected()来连接ServerService组件，以便获得ServerService组件内部的一个Binder本地对象。
+该方法会接着调用 InnerConnection.connected()来连接 ServerService 组件，以便获得 ServerService 组件内部的一个 Binder 本地对象。
 
 ### 23 InnerConnection.connected(ComponentName name, IBinder service)
 
 ```java
 final class LoadedApk {
    static final class ServiceDispatcher {
-   
+
         private static class InnerConnection extends IServiceConnection.Stub {
             final WeakReference<LoadedApk.ServiceDispatcher> mDispatcher;
 
@@ -961,14 +978,14 @@ final class LoadedApk {
 }
 ```
 
-可以看到类的关系是：LoadedApk.ServiceDispatcher.InnerConnection，该方法最终会去调用方法ServiceDispatcher.connected()。
+可以看到类的关系是：LoadedApk.ServiceDispatcher.InnerConnection，该方法最终会去调用方法 ServiceDispatcher.connected()。
 
 ### 24 ServiceDispatcher.connected(ComponentName name, IBinder service)
 
 ```java
 final class LoadedApk {
    static final class ServiceDispatcher {
-   
+
       public void connected(ComponentName name, IBinder service) {
             //mActivityThread的类型是Handler，它指向了ActivityThread内部的mH变量，它是
             //用来向ClientActivity所在主线程发送消息的
@@ -984,13 +1001,13 @@ final class LoadedApk {
 }
 ```
 
-该方法将name与service封装成一个RunConnection对象，然后发送给ClientActivity所在主线程的消息队列，该消息最终会在
+该方法将 name 与 service 封装成一个 RunConnection 对象，然后发送给 ClientActivity 所在主线程的消息队列，该消息最终会在
 RunConnection.run()方法里处理.
 
-为什么不直接在本方法中将ServerService内部的Binder组件IBinder service传递给ClientActivity，而是通过消息处理机制
+为什么不直接在本方法中将 ServerService 内部的 Binder 组件 IBinder service 传递给 ClientActivity，而是通过消息处理机制
 简介传递呢？
 
-这么做有2个原因：
+这么做有 2 个原因：
 
 ```
 1 当前线程要尽快回到Binder线程池中，以便可以处理其他的Binder进程通信请求。从而提高ClientActivity并发处理Binder
@@ -999,8 +1016,7 @@ RunConnection.run()方法里处理.
 需要通过消息处理机制将这个转递操作放在主线程中执行。
 ```
 
-
-### 25 RunConnection.run() 
+### 25 RunConnection.run()
 
 ```java
 final class LoadedApk {
@@ -1010,7 +1026,7 @@ final class LoadedApk {
             mService = service;
             mCommand = command;
         }
-    
+
         public void run() {
             if (mCommand == 0) {
                 //调用LoadedApk.doConnected(mName, mService)连接ServerService组件
@@ -1020,7 +1036,7 @@ final class LoadedApk {
                 doDeath(mName, mService);
             }
         }
-    
+
         final ComponentName mName;
         final IBinder mService;
         final int mCommand;
@@ -1028,7 +1044,7 @@ final class LoadedApk {
 }
 ```
 
-该方法接着调用方法LoadedApk.doConnected(mName, mService)。
+该方法接着调用方法 LoadedApk.doConnected(mName, mService)。
 
 ### 26 LoadedApk.doConnected(ComponentName name, IBinder service)
 
@@ -1038,14 +1054,14 @@ final class LoadedApk {
      public void doConnected(ComponentName name, IBinder service) {
                 ServiceDispatcher.ConnectionInfo old;
                 ServiceDispatcher.ConnectionInfo info;
-    
+
                 synchronized (this) {
                     old = mActiveConnections.get(name);
                     if (old != null && old.binder == service) {
                         // Huh, already have this one.  Oh well!
                         return;
                     }
-    
+
                     if (service != null) {
                         // A new service is being connected... set it all up.
                         mDied = false;
@@ -1061,17 +1077,17 @@ final class LoadedApk {
                             mActiveConnections.remove(name);
                             return;
                         }
-    
+
                     } else {
                         // The named service is being disconnected... clean up.
                         mActiveConnections.remove(name);
                     }
-    
+
                     if (old != null) {
                         old.binder.unlinkToDeath(old.deathMonitor, 0);
                     }
                 }
-    
+
                 //mConnection对象指向了我们在ClientActivity定义的一个ServiceConnection对象
                 // If there was an old service, it is not disconnected.
                 if (old != null) {
@@ -1085,13 +1101,14 @@ final class LoadedApk {
 }
 
 ```
+
 ### 27 ServiceConnection.onServiceConnected(ComponentName name, IBinder service)
 
 ```java
 public class ClientActivity extends AppCompatActivity  {
 
     private IServerService serverService;
-    
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -1117,20 +1134,20 @@ public class ClientActivity extends AppCompatActivity  {
 }
 ```
 
-在该方法中，调用getService()方法获得ServerService，保存在IServerService serverService变量中，ServerService实现了接口IServerService。
-到这一步，ServerService组件成功与ClientActivity组件绑定。
+在该方法中，调用 getService()方法获得 ServerService，保存在 IServerService serverService 变量中，ServerService 实现了接口 IServerService。
+到这一步，ServerService 组件成功与 ClientActivity 组件绑定。
 
 ## 总结
 
 整个流程比较长，我们再来总结一下。
 
->ClientActivity内部持有一个实现了ServiceConnection接口的匿名内部类，它会在bindService()传递给ServerService，而
-ServerService内部有一个继承Binder的本地Binder对象，该对象会在ServerService绑定完成后通过ServiceConnection接口接口
-方法传递给ClientActivity，这样ClientActivity就可以调用该Binder对象里的方法。
+> ClientActivity 内部持有一个实现了 ServiceConnection 接口的匿名内部类，它会在 bindService()传递给 ServerService，而
+> ServerService 内部有一个继承 Binder 的本地 Binder 对象，该对象会在 ServerService 绑定完成后通过 ServiceConnection 接口接口
+> 方法传递给 ClientActivity，这样 ClientActivity 就可以调用该 Binder 对象里的方法。
 
-**Service组件在进程内绑定序列图**
+**Service 组件在进程内绑定序列图**
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/art/app/10/service_bind_sequence.png">
+<img src="./art/app/10/service_bind_sequence.png">
 
 我们再来梳理一下整个流程：
 

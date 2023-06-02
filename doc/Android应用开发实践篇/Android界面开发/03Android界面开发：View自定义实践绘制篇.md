@@ -1,43 +1,43 @@
-# Android界面开发：View自定义实践绘制篇
+# Android 界面开发：View 自定义实践绘制篇
 
 **关于作者**
 
->郭孝星，程序员，吉他手，主要从事Android平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提issue或者发邮件至guoxiaoxingse@163.com与我交流。
+> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
 
 **文章目录**
 
 - 一 View
 - 二 Paint
-    - 2.1 颜色处理
-    - 2.2 文字处理
-    - 2.3 特殊处理
+  - 2.1 颜色处理
+  - 2.2 文字处理
+  - 2.3 特殊处理
 - 三 Canvas
-    - 3.1 界面绘制
-    - 3.2 范围裁切
-    - 3.3 几何变换
+  - 3.1 界面绘制
+  - 3.2 范围裁切
+  - 3.3 几何变换
 - 四 Path
-    -  4.1 添加图形
-    -  4.3 画线（直线或曲线）
-    -  4.3 辅助设置和计算
+  - 4.1 添加图形
+  - 4.3 画线（直线或曲线）
+  - 4.3 辅助设置和计算
 
-第一次阅览本系列文章，请参见[导读](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/导读.md)，更多文章请参见[文章目录](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/README.md)。
+第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
-- [01Android界面开发：View自定义实践概览](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
-- [02Android界面开发：View自定义实践布局篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
-- [03Android界面开发：View自定义实践绘制篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/03Android界面开发：View自定义实践绘制篇.md)
-- [04Android界面开发：View自定义实践交互篇](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/Android应用开发实践篇/Android界面开发/04Android界面开发：View自定义实践交互篇.md)
+- [01Android 界面开发：View 自定义实践概览](./doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
+- [02Android 界面开发：View 自定义实践布局篇](./doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
+- [03Android 界面开发：View 自定义实践绘制篇](./doc/Android应用开发实践篇/Android界面开发/03Android界面开发：View自定义实践绘制篇.md)
+- [04Android 界面开发：View 自定义实践交互篇](./doc/Android应用开发实践篇/Android界面开发/04Android界面开发：View自定义实践交互篇.md)
 
 **文章源码**
 
-- [DrawView](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/DrawView.java)
-- [WaveView](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/bazier/WaveView.java)
-- [RippleLayout](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/RippleLayout.java)
-- [LabelImageView](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/LabelImageView.java)
+- [DrawView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/DrawView.java)
+- [WaveView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/bazier/WaveView.java)
+- [RippleLayout](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/RippleLayout.java)
+- [LabelImageView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/LabelImageView.java)
 
 本文还提供了三个综合性的完整实例来辅助理解。
 
-- View绘制 - 图片标签效果实现
-- Canvas绘图 - 水面涟漪效果实现
+- View 绘制 - 图片标签效果实现
+- Canvas 绘图 - 水面涟漪效果实现
 - 二阶贝塞尔曲线的应用 - 杯中倒水效果实现
 
 <p>
@@ -46,11 +46,11 @@
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/bezier_wave.gif" width="260" height="500"/>
 </p>
 
-第一次阅览本系列文章，请参见[导读](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/doc/导读.md)，更多文章请参见[文章目录](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/README.md)。
+第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
-本篇文章我们来分析View绘制方面的实践。
+本篇文章我们来分析 View 绘制方面的实践。
 
-一个简单的自定义View
+一个简单的自定义 View
 
 ```java
 public class DrawView extends View {
@@ -77,32 +77,33 @@ public class DrawView extends View {
     }
 }
 ```
+
 它在屏幕上绘制了一个圆形，如图：
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/draw_view_1.png" width="250" height="500"/>
 
 在处理绘制的时候有以下几个关键点：
 
-- 处理绘制需要重写绘制方法，常用的是View的onDraw()，当然我们也可以使用其他的绘制方法来处理遮盖关系。
-- 完成绘制的是Canvas类，该类提供了绘制系列方法drawXXX()。裁剪系列方法clipXXX()以及几何变换方法translate()方法，还有辅助绘制的Path与Matrix。
-- 定制绘制的是Paint类，该类是绘制所用的画笔，可以实现特殊的绘制效果。
+- 处理绘制需要重写绘制方法，常用的是 View 的 onDraw()，当然我们也可以使用其他的绘制方法来处理遮盖关系。
+- 完成绘制的是 Canvas 类，该类提供了绘制系列方法 drawXXX()。裁剪系列方法 clipXXX()以及几何变换方法 translate()方法，还有辅助绘制的 Path 与 Matrix。
+- 定制绘制的是 Paint 类，该类是绘制所用的画笔，可以实现特殊的绘制效果。
 
 我们分别来看看这个关键的角色。
 
 ## 一 View
 
-我们讨论的第一个问题就是View/ViewGroup的绘制顺序问题，绘制在View.draw()方法里调用的，具体的执行顺序是：
+我们讨论的第一个问题就是 View/ViewGroup 的绘制顺序问题，绘制在 View.draw()方法里调用的，具体的执行顺序是：
 
 1. drawBackground()：绘制背景，不能重写。
 2. onDraw()：绘制主体。
-3. dispatchDraw()：绘制子View
+3. dispatchDraw()：绘制子 View
 4. onDrawForeground()：绘制滑动边缘渐变、滚动条和前景。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_draw_flow.png"/>
 
 我们先从个小例子开始。
 
-我们如果继承View来实现自定义View。View类的onDraw()是空实现，所以我们的绘制代码写在super.onDraw(canvas)的前面或者后面都没有关系，如下所示：
+我们如果继承 View 来实现自定义 View。View 类的 onDraw()是空实现，所以我们的绘制代码写在 super.onDraw(canvas)的前面或者后面都没有关系，如下所示：
 
 ```java
 public class DrawView extends View {
@@ -114,7 +115,7 @@ public class DrawView extends View {
 }
 ```
 
-但是如果我们继承特定的控件，例如TextView。我们就需要去考虑TextView的绘制逻辑。
+但是如果我们继承特定的控件，例如 TextView。我们就需要去考虑 TextView 的绘制逻辑。
 
 ```java
 public class DrawView extends TextView {
@@ -127,11 +128,12 @@ public class DrawView extends TextView {
     }
 }
 ```
-- 写在前面，DrawView的绘制会先于TextView的绘制，TextView绘制的内容可以会覆盖DrawView
-- 写在后面，DrawView的绘制会晚于TextView的绘制，DrawView绘制的内容可以会覆盖TextView
 
-具体怎么做取决于你实际的需求，例如你如果想给TextView加个背景，就写在super.onDraw(canvas)前面，想给TextView前面加些点缀，就
-写在super.onDraw(canvas)后面。
+- 写在前面，DrawView 的绘制会先于 TextView 的绘制，TextView 绘制的内容可以会覆盖 DrawView
+- 写在后面，DrawView 的绘制会晚于 TextView 的绘制，DrawView 绘制的内容可以会覆盖 TextView
+
+具体怎么做取决于你实际的需求，例如你如果想给 TextView 加个背景，就写在 super.onDraw(canvas)前面，想给 TextView 前面加些点缀，就
+写在 super.onDraw(canvas)后面。
 
 我们来写个例子理解下。
 
@@ -236,18 +238,18 @@ public class LabelImageView extends AppCompatImageView {
 }
 ```
 
-所以你可以看到，当我们继承了一个View，根据需求的不同可以选择性重写我们需要的方法，在super前插入代码和在super后插入代码，效果是不一样的。
+所以你可以看到，当我们继承了一个 View，根据需求的不同可以选择性重写我们需要的方法，在 super 前插入代码和在 super 后插入代码，效果是不一样的。
 
 - draw()：super.draw()之前，被背景盖住；super.draw()后，盖住前景；
-- onDraw()：super.onDraw()之前，背景与主体内容之前；super.onDraw()之后，主体内容和子View之间；
-- dispatchDraw()：super.dispatchDraw()之前，主体内容和子View之间；super.dispatchDraw()之后，子View和前景之间；
-- onDrawForeground()：super.onDrawForeground()之前，子View和前景之间；super.onDrawForeground()之后，盖住前景；
+- onDraw()：super.onDraw()之前，背景与主体内容之前；super.onDraw()之后，主体内容和子 View 之间；
+- dispatchDraw()：super.dispatchDraw()之前，主体内容和子 View 之间；super.dispatchDraw()之后，子 View 和前景之间；
+- onDrawForeground()：super.onDrawForeground()之前，子 View 和前景之间；super.onDrawForeground()之后，盖住前景；
 
 ## 二 Paint
 
->Paint：顾名思义，画笔，通过Paint可以对绘制行为进行控制。
+> Paint：顾名思义，画笔，通过 Paint 可以对绘制行为进行控制。
 
-Paint有三种构造方法
+Paint 有三种构造方法
 
 ```java
 public class Paint {
@@ -255,7 +257,7 @@ public class Paint {
       public Paint() {
           this(0);
       }
-  
+
       //传入flags来构造Paint，flags用来控制Paint的行为，例如：抗锯齿等
       public Paint(int flags) {
           mNativePaint = nInit();
@@ -268,32 +270,33 @@ public class Paint {
           mCompatScaling = mInvCompatScaling = 1;
           setTextLocales(LocaleList.getAdjustedDefault());
       }
-  
+
       //传入另外一个Paint来构造新的Paint
       public Paint(Paint paint) {
           mNativePaint = nInitWithPaint(paint.getNativeInstance());
           NoImagePreloadHolder.sRegistry.registerNativeAllocation(this, mNativePaint);
           setClassVariablesFrom(paint);
-      }  
+      }
 }
 ```
 
 ### 2.1 颜色处理类
 
-在Paint类中，处理颜色主要有三个方法。
+在 Paint 类中，处理颜色主要有三个方法。
 
 - setShader(Shader shader)：用来处理颜色渐变
-- setColorFilter(ColorFilter filter)：用来基于颜色进行过滤处理； 
+- setColorFilter(ColorFilter filter)：用来基于颜色进行过滤处理；
 - setXfermode(Xfermode xfermode) 用来处理源图像和 View 已有内容的关系
 
 #### setShader(Shader shader)
 
->着色器是图像领域的一个通用概念，它提供的是一套着色规则。
+> 着色器是图像领域的一个通用概念，它提供的是一套着色规则。
 
 ```java
-public Shader setShader(Shader shader) 
+public Shader setShader(Shader shader)
 ```
-着色器具体由Shader的子类实现：
+
+着色器具体由 Shader 的子类实现：
 
 **LinearGradient - 线性渐变**
 
@@ -301,9 +304,9 @@ public Shader setShader(Shader shader)
 public LinearGradient(float x0, float y0, float x1, float y1, int color0, int color1, TileMode tile)
 ```
 
-- x0 y0 x1 y1：渐变的两个端点的位置 
-- color0 color1 是端点的颜色 
-- tile：端点范围之外的着色规则，类型是 TileMode。TileMode 一共有 3 个值可选： CLAMP, MIRROR 和 REPEAT。CLAMP 
+- x0 y0 x1 y1：渐变的两个端点的位置
+- color0 color1 是端点的颜色
+- tile：端点范围之外的着色规则，类型是 TileMode。TileMode 一共有 3 个值可选： CLAMP, MIRROR 和 REPEAT。CLAMP
 
 举例
 
@@ -328,19 +331,18 @@ canvas.drawRect(0, 1100, 1000, 1500, paint3);
 **SweepGradient - 辐射渐变**
 
 ```java
-public RadialGradient(float centerX, float centerY, float radius, int centerColor, int edgeColor, @NonNull TileMode tileMode) 
+public RadialGradient(float centerX, float centerY, float radius, int centerColor, int edgeColor, @NonNull TileMode tileMode)
 ```
 
-- centerX centerY：辐射中心的坐标 
-- radius：辐射半径 
-- centerColor：辐射中心的颜色 
-- edgeColor：辐射边缘的颜色 
+- centerX centerY：辐射中心的坐标
+- radius：辐射半径
+- centerColor：辐射中心的颜色
+- edgeColor：辐射边缘的颜色
 - tileMode：辐射范围之外的着色模式
 
 举例
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/shader_radial.png" width="250" height="500"/>
-
 
 ```java
 //辐射渐变
@@ -356,20 +358,22 @@ paint3.setShader(shader3);
 canvas.drawRect(0, 100, 1000, 500, paint1);
 canvas.drawRect(0, 600, 1000, 1000, paint2);
 ```
-**BitmapShader - 位图着色** 
+
+**BitmapShader - 位图着色**
 
 使用位图的像素来填充图形或者文字。
 
 ```java
  public BitmapShader(@NonNull Bitmap bitmap, TileMode tileX, TileMode tileY)
 ```
-- bitmap：用来做模板的 Bitmap 对象 
-- tileX：横向的 TileMode 
+
+- bitmap：用来做模板的 Bitmap 对象
+- tileX：横向的 TileMode
 - tileY：纵向的 TileMode。
 
 举例
 
-BitmapShader是一个很有用的类，可以利用该类做各种各样的图片裁剪。
+BitmapShader 是一个很有用的类，可以利用该类做各种各样的图片裁剪。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/shader_bitmap.png" width="250" height="500"/>
 
@@ -382,40 +386,42 @@ paint1.setShader(shader1);
 canvas.drawCircle(500, 500, 300, paint1);
 ```
 
-**ComposeShader - 组合Shader**
+**ComposeShader - 组合 Shader**
 
-ComposeShader可以将连个Shader组合在一起。
+ComposeShader 可以将连个 Shader 组合在一起。
 
 ```java
-public ComposeShader(Shader shaderA, Shader shaderB, PorterDuff.Mode mode) 
+public ComposeShader(Shader shaderA, Shader shaderB, PorterDuff.Mode mode)
 ```
 
-- shaderA, shaderB：两个相继使用的 Shader 
-- mode: 两个 Shader 的叠加模式，即 shaderA 和 shaderB 应该怎样共同绘制。它的类型是PorterDuff.Mode。
+- shaderA, shaderB：两个相继使用的 Shader
+- mode: 两个 Shader 的叠加模式，即 shaderA 和 shaderB 应该怎样共同绘制。它的类型是 PorterDuff.Mode。
 
-PorterDuff.Mode用来指定两个Shader叠加时颜色的绘制策略，它有很多种策略，也就是以一种怎样的模式来与原图像进行合成，具体如下：
+PorterDuff.Mode 用来指定两个 Shader 叠加时颜色的绘制策略，它有很多种策略，也就是以一种怎样的模式来与原图像进行合成，具体如下：
 
 蓝色矩形为原图像，红色圆形为目标图像。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/porter_buff_mode_alpha.png"/>
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/porter_duff_mode_blending.png"/>
 
-更多细节可以参见[PorterDuff.Mode官方文档](https://developer.android.com/reference/android/graphics/PorterDuff.Mode.html)。
+更多细节可以参见[PorterDuff.Mode 官方文档](https://developer.android.com/reference/android/graphics/PorterDuff.Mode.html)。
 
 #### setColorFilter(ColorFilter filter)
 
->颜色过滤器可以将颜色按照一定的规则输出，常见于各种滤镜效果。
+> 颜色过滤器可以将颜色按照一定的规则输出，常见于各种滤镜效果。
 
 ```java
-public ColorFilter setColorFilter(ColorFilter filter) 
+public ColorFilter setColorFilter(ColorFilter filter)
 ```
-我们通常使用的是ColorFilter的三个子类：
+
+我们通常使用的是 ColorFilter 的三个子类：
 
 **LightingColorFilter - 模拟光照效果**
 
 ```java
 public LightingColorFilter(int mul, int add)
 ```
+
 mul 和 add 都是和颜色值格式相同的 int 值，其中 mul 用来和目标像素相乘，add 用来和目标像素相加。
 
 举例
@@ -431,32 +437,34 @@ canvas.drawBitmap(bitmapTimo, null, rect1, paint1);
 canvas.drawBitmap(bitmapTimo, null, rect2, paint2);
 ```
 
-**PorterDuffColorFilter - 模拟颜色混合效果** 
+**PorterDuffColorFilter - 模拟颜色混合效果**
 
 ```java
-public PorterDuffColorFilter(@ColorInt int color, @NonNull PorterDuff.Mode mode) 
+public PorterDuffColorFilter(@ColorInt int color, @NonNull PorterDuff.Mode mode)
 ```
-PorterDuffColorFilter指定一种颜色和PorterDuff.Mode来与源图像就行合成，也就是以一种怎样的模式来与原图像进行合成，我们在上面已经讲过这个内容。
+
+PorterDuffColorFilter 指定一种颜色和 PorterDuff.Mode 来与源图像就行合成，也就是以一种怎样的模式来与原图像进行合成，我们在上面已经讲过这个内容。
 
 举例
 
 ```java
 //我们在使用Xfermode的时候也是使用它的子类PorterDuffXfermode
 Xfermode xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
-canvas.drawBitmap(rectBitmap, 0, 0, paint); // 画方  
-paint.setXfermode(xfermode); // 设置 Xfermode  
-canvas.drawBitmap(circleBitmap, 0, 0, paint); // 画圆  
-paint.setXfermode(null); // 用完及时清除 Xfermode  
+canvas.drawBitmap(rectBitmap, 0, 0, paint); // 画方
+paint.setXfermode(xfermode); // 设置 Xfermode
+canvas.drawBitmap(circleBitmap, 0, 0, paint); // 画圆
+paint.setXfermode(null); // 用完及时清除 Xfermode
 ```
 
 **ColorMatrixColorFilter - 颜色矩阵过滤**
 
-ColorMatrixColorFilter使用一个颜色矩阵ColorMatrix来对象图像进行处理。
+ColorMatrixColorFilter 使用一个颜色矩阵 ColorMatrix 来对象图像进行处理。
 
 ```java
 public ColorMatrixColorFilter(ColorMatrix matrix)
 ```
-ColorMatrix是一个4x5的矩阵
+
+ColorMatrix 是一个 4x5 的矩阵
 
 ```java
 [ a, b, c, d, e,
@@ -464,64 +472,65 @@ ColorMatrix是一个4x5的矩阵
   k, l, m, n, o,
   p, q, r, s, t ]
 ```
-通过计算，ColorMatrix可以对要绘制的像素进行转换，如下：
+
+通过计算，ColorMatrix 可以对要绘制的像素进行转换，如下：
 
 ```java
-R’ = a*R + b*G + c*B + d*A + e;  
-G’ = f*R + g*G + h*B + i*A + j;  
-B’ = k*R + l*G + m*B + n*A + o;  
-A’ = p*R + q*G + r*B + s*A + t;  
+R’ = a*R + b*G + c*B + d*A + e;
+G’ = f*R + g*G + h*B + i*A + j;
+B’ = k*R + l*G + m*B + n*A + o;
+A’ = p*R + q*G + r*B + s*A + t;
 ```
 
-利用ColorMatrixColorFilter(可以实现很多炫酷的滤镜效果。
+利用 ColorMatrixColorFilter(可以实现很多炫酷的滤镜效果。
 
 #### setXfermode(Xfermode xfermode)
 
 Paint.setXfermode(Xfermode xfermode)方法，它也是一种混合图像的方法。
 
->Xfermode 指的是你要绘制的内容和 Canvas 的目标位置的内容应该怎样结合计算出最终的颜色。但通俗地说，其实就是要你以绘制的内容作为源图像，以View中已有的内
-容作为目标图像，选取一个PorterDuff.Mode作为绘制内容的颜色处理方案。
+> Xfermode 指的是你要绘制的内容和 Canvas 的目标位置的内容应该怎样结合计算出最终的颜色。但通俗地说，其实就是要你以绘制的内容作为源图像，以 View 中已有的内
+> 容作为目标图像，选取一个 PorterDuff.Mode 作为绘制内容的颜色处理方案。
 
 **小结**
 
-关于PorterDuff.Mode，我们已经提到
+关于 PorterDuff.Mode，我们已经提到
 
-- ComposeShader：混合两个Shader
-- PorterDuffColorFilter：增加一个单色的ColorFilter
+- ComposeShader：混合两个 Shader
+- PorterDuffColorFilter：增加一个单色的 ColorFilter
 - Xfermode：指定原图像与目标图像的混合模式
 
-这三种以不同的方式来使用PorterDuff.Mode，但是原理都是一样的。
+这三种以不同的方式来使用 PorterDuff.Mode，但是原理都是一样的。
 
 ### 2.2 文字处理类
 
-Paint里有大量方法来设置文字的绘制属性，事实上文字在Android底层是被当做图片来处理的。
+Paint 里有大量方法来设置文字的绘制属性，事实上文字在 Android 底层是被当做图片来处理的。
 
 - setTextSize(float textSize)：设置文字大小
--   setTypeface(Typeface typeface)：设置文字字体
-- setFakeBoldText(boolean fakeBoldText)：是否使用伪粗体（并不是提到size，而是在运行时描粗的）
+- setTypeface(Typeface typeface)：设置文字字体
+- setFakeBoldText(boolean fakeBoldText)：是否使用伪粗体（并不是提到 size，而是在运行时描粗的）
 - setStrikeThruText(boolean strikeThruText)：是否添加删除线
 - setUnderlineText(boolean underlineText)：是否添加下划线
 - setTextSkewX(float skewX)：设置文字倾斜度
 - setTextScaleX(float scaleX)：设置文字横向缩放
 - setLetterSpacing(float letterSpacing)：设置文字间距
-- setFontFeatureSettings(String settings)：使用CSS的font-feature-settings的方式来设置文字。
+- setFontFeatureSettings(String settings)：使用 CSS 的 font-feature-settings 的方式来设置文字。
 - setTextAlign(Paint.Align align)：设置文字对齐方式
-- setTextLocale(Locale locale)：设置文字Local
-- setHinting(int mode)：设置字体Hinting（微调），过向字体中加入 hinting 信息，让矢量字体在尺寸过小的时候得到针对性的修正，从而提高显示效果。
+- setTextLocale(Locale locale)：设置文字 Local
+- setHinting(int mode)：设置字体 Hinting（微调），过向字体中加入 hinting 信息，让矢量字体在尺寸过小的时候得到针对性的修正，从而提高显示效果。
 - setSubpixelText(boolean subpixelText)：设置次像素级抗锯齿，根据程序所运行的设备的屏幕类型，来进行针对性的次像素级的抗锯齿计算，从而达到更好的抗锯齿效果。
 
 ### 2.3 特殊效果类
 
-#### setAntiAlias (boolean aa) 
+#### setAntiAlias (boolean aa)
 
-设置抗锯齿，默认关闭，用来是图像的绘制更加圆润。我们还可以在初始化的时候设置Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);。
+设置抗锯齿，默认关闭，用来是图像的绘制更加圆润。我们还可以在初始化的时候设置 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);。
 
 #### setStyle(Paint.Style style)
 
 设置填充风格，
 
-- FILL 模式，填充  
-- STROKE 模式，画线  
+- FILL 模式，填充
+- STROKE 模式，画线
 - FILL_AND_STROKE 模式，填充 + 画线
 
 如果是划线模式，我们针对线条还可以有多种设置。
@@ -548,9 +557,9 @@ setStrokeMiter(float miter)- 设置 MITER 型拐角的延长线的最大值
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/dither.png" width="250" height="500"/>
 
->抖动是指把图像从较高色彩深度（即可用的颜色数）向较低色彩深度的区域绘制时，在图像中有意地插入噪点，通过有规律地扰乱图像来让图像对于肉眼更加真实的做法。
+> 抖动是指把图像从较高色彩深度（即可用的颜色数）向较低色彩深度的区域绘制时，在图像中有意地插入噪点，通过有规律地扰乱图像来让图像对于肉眼更加真实的做法。
 
-当然这个效果旨在低位色的时候比较有用，例如，ARGB_4444 或者 RGB_565，不过现在Android默认的色彩深度都是32位的ARGB_8888，这个方法的效果没有那么明显。
+当然这个效果旨在低位色的时候比较有用，例如，ARGB_4444 或者 RGB_565，不过现在 Android 默认的色彩深度都是 32 位的 ARGB_8888，这个方法的效果没有那么明显。
 
 #### setFilterBitmap(boolean filter)
 
@@ -562,18 +571,18 @@ setStrokeMiter(float miter)- 设置 MITER 型拐角的延长线的最大值
 
 #### etPathEffect(PathEffect effect)
 
-设置图形的轮廓效果。Android有六种PathEffect：
+设置图形的轮廓效果。Android 有六种 PathEffect：
 
 - CornerPathEffect：将拐角绘制成圆角
 - DiscretePathEffect：将线条进行随机偏离
 - DashPathEffect：绘制虚线
-- PathDashPathEffect：使用指定的Path来绘制虚线
-- SumPathEffect：组合两个PathEffect，叠加应用。
-- ComposePathEffect：组合两个PathEffect，叠加应用。
+- PathDashPathEffect：使用指定的 Path 来绘制虚线
+- SumPathEffect：组合两个 PathEffect，叠加应用。
+- ComposePathEffect：组合两个 PathEffect，叠加应用。
 
 CornerPathEffect(float radius)
 
-- float radius圆角半径
+- float radius 圆角半径
 
 DiscretePathEffect(float segmentLength, float deviation)
 
@@ -587,20 +596,20 @@ DashPathEffect(float[] intervals, float phase)
 
 PathDashPathEffect(Path shape, float advance, float phase, PathDashPathEffect.Style style)
 
-- Path shape：用来绘制的Path
-- float advance：两个相邻Path段起点间的间隔
+- Path shape：用来绘制的 Path
+- float advance：两个相邻 Path 段起点间的间隔
 - float phase：虚线的偏移量
 - PathDashPathEffect.Style style：指定拐弯改变的时候 shape 的转换方式：TRANSLATE：位移、ROTATE：旋转、MORPH：变体
-                                                       
+
 SumPathEffect(PathEffect first, PathEffect second)
 
-- PathEffect first：同时应用的PathEffect
-- PathEffect second：同时应用的PathEffect
+- PathEffect first：同时应用的 PathEffect
+- PathEffect second：同时应用的 PathEffect
 
 ComposePathEffect(PathEffect outerpe, PathEffect innerpe)
 
-- PathEffect outerpe：后应用的PathEffect
-- PathEffect innerpe：先应用用的PathEffect
+- PathEffect outerpe：后应用的 PathEffect
+- PathEffect innerpe：先应用用的 PathEffect
 
 举例
 
@@ -636,6 +645,7 @@ paint4.setStyle(Paint.Style.STROKE);
 paint4.setStrokeWidth(5);
 paint4.setPathEffect(pathDashPathEffect);
 ```
+
 #### setShadowLayer(float radius, float dx, float dy, int shadowColor)
 
 设置阴影图层，处于目标下层图层。
@@ -655,14 +665,14 @@ paint1.setShadowLayer(10, 0, 0, Color.RED);
 canvas.drawText("Android", 80, 300 ,paint1);
 ```
 
->注：在硬件加速开启的情况下， setShadowLayer() 只支持文字的绘制，文字之外的绘制必须关闭硬件加速才能正常绘制阴影。如果 shadowColor 是半透明的，阴影的透明度就使用 shadowColor 自己
-的透明度；而如果  shadowColor 是不透明的，阴影的透明度就使用 paint 的透明度。
+> 注：在硬件加速开启的情况下， setShadowLayer() 只支持文字的绘制，文字之外的绘制必须关闭硬件加速才能正常绘制阴影。如果 shadowColor 是半透明的，阴影的透明度就使用 shadowColor 自己
+> 的透明度；而如果 shadowColor 是不透明的，阴影的透明度就使用 paint 的透明度。
 
 #### setMaskFilter(MaskFilter maskfilter)
 
 设置图层遮罩层，处于目标上层图层。
 
-MaskFilter有两个子类：
+MaskFilter 有两个子类：
 
 - BlurMaskFilter：模糊效果
 - BlurMaskFilter：浮雕效果
@@ -695,16 +705,17 @@ paint2.setMaskFilter(blurMaskFilter);
 canvas.drawBitmap(bitmapTimo, null, rect1, paint1);
 canvas.drawBitmap(bitmapTimo, null, rect2, paint2);
 ```
->注：在硬件加速开启的情况下， setMaskFilter(MaskFilter maskfilter)只支持文字的绘制，文字之外的绘制必须关闭硬件加速才能正常绘制阴影。关闭硬件加速可以调用
-View.setLayerType(View.LAYER_TYPE_SOFTWARE, null)或者在Activity标签里设置android:hardwareAccelerated="false"。
+
+> 注：在硬件加速开启的情况下， setMaskFilter(MaskFilter maskfilter)只支持文字的绘制，文字之外的绘制必须关闭硬件加速才能正常绘制阴影。关闭硬件加速可以调用
+> View.setLayerType(View.LAYER_TYPE_SOFTWARE, null)或者在 Activity 标签里设置 android:hardwareAccelerated="false"。
 
 ## 三 Canvas
 
->Canvas实现了Android 2D图形的绘制，底层基于Skia实现。
+> Canvas 实现了 Android 2D 图形的绘制，底层基于 Skia 实现。
 
 ### 3.1 界面绘制
 
-Canvas提供了丰富的对象绘制方法，一般都以drawXXX()打头，绘制的对象包括：
+Canvas 提供了丰富的对象绘制方法，一般都以 drawXXX()打头，绘制的对象包括：
 
 - 弧线（Arcs）
 - 颜色（Argb、Color）
@@ -730,8 +741,9 @@ public void drawArc(float left, float top, float right, float bottom, float star
             useCenter, paint.getNativeInstance());
 }
 ```
+
 - float left, float top, float right, float bottom：左、上、右、下的坐标。
-- float startAngle：弧形起始角度，Android坐标系x轴正右的方向是0度的位置，顺时针为正角度，逆时针为负角度。
+- float startAngle：弧形起始角度，Android 坐标系 x 轴正右的方向是 0 度的位置，顺时针为正角度，逆时针为负角度。
 - float sweepAngle：弧形划过的角度。
 - boolean useCenter：是否连接到圆心。如果不连接到圆心就是弧形，如果连接到圆心，就是扇形。
 
@@ -747,27 +759,28 @@ paint.setStyle(Paint.Style.STROKE);//画线模式
 paint.setStrokeWidth(5);
 canvas.drawArc(200, 100, 800, 500, 180, 60, false, paint);
 ```
+
 **位图**
 
 - **public void drawBitmap(@NonNull Bitmap bitmap, float left, float top, @Nullable Paint paint) - 绘制位图**
 - **public void drawBitmapMesh(@NonNull Bitmap bitmap, int meshWidth, int meshHeight,
-             @NonNull float[] verts, int vertOffset, @Nullable int[] colors, int colorOffset,
-             @Nullable Paint paint) - 绘制拉伸位图**
+  @NonNull float[] verts, int vertOffset, @Nullable int[] colors, int colorOffset,
+  @Nullable Paint paint) - 绘制拉伸位图**
 
-第一个方法很简单，就是在指定的坐标处开始绘制位图。我们着重来看看第二个方法，这个方法不是很常用（可能是计算比较复杂的锅😓），但这并不影响它强大的功能。
+第一个方法很简单，就是在指定的坐标处开始绘制位图。我们着重来看看第二个方法，这个方法不是很常用（可能是计算比较复杂的锅 😓），但这并不影响它强大的功能。
 
 drawBitmapMesh()方法将位图分为若干网格，然后对每个网格进行扭曲处理。我们先来看看这个方法的参数：
 
 - @NonNull Bitmap bitmap：源位图
 - int meshWidth：横向上将源位图划分成多少格
 - int meshHeight：纵向上将源位图划分成多少格
-- @NonNull float[] verts：网格顶点坐标数组，记录扭曲后图片各顶点的坐标，数组大小为 (meshWidth+1) * (meshHeight+1) * 2 + vertOffset
-- int vertOffset：记录verts数组从第几个数组元素开始扭曲
-- @Nullable int[] colors：设置网格顶点的颜色，该颜色会和位图对应像素的颜色叠加，数组大小为 (meshWidth+1) * (meshHeight+1) + colorOffset
-- int colorOffset：记录colors从几个数组元素开始取色
+- @NonNull float[] verts：网格顶点坐标数组，记录扭曲后图片各顶点的坐标，数组大小为 (meshWidth+1) _ (meshHeight+1) _ 2 + vertOffset
+- int vertOffset：记录 verts 数组从第几个数组元素开始扭曲
+- @Nullable int[] colors：设置网格顶点的颜色，该颜色会和位图对应像素的颜色叠加，数组大小为 (meshWidth+1) \* (meshHeight+1) + colorOffset
+- int colorOffset：记录 colors 从几个数组元素开始取色
 - @Nullable Paint paint：画笔
 
-我们来用drawBitmapMesh()方法实现一个水面涟漪效果。
+我们来用 drawBitmapMesh()方法实现一个水面涟漪效果。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/ripple.gif" width="260" height="500"/>
 
@@ -1036,9 +1049,9 @@ public void drawPath(@NonNull Path path, @NonNull Paint paint) {
 }
 ```
 
-drawPath()可以绘制自定义图形，图形的路径用Path对象来描述。
+drawPath()可以绘制自定义图形，图形的路径用 Path 对象来描述。
 
-Path对象可以描述很多图形，具体说来：
+Path 对象可以描述很多图形，具体说来：
 
 - 直线
 - 二次曲线
@@ -1051,7 +1064,7 @@ Path对象可以描述很多图形，具体说来：
 
 ### 3.2 范围裁切
 
-Canvas里的范围裁切主要有两类方法：
+Canvas 里的范围裁切主要有两类方法：
 
 - clipReact()：按路径裁切
 - clipPath()：按坐标裁切
@@ -1088,9 +1101,9 @@ canvas.restore();//恢复画布
 - Matrix：自定义几何变换
 - Camera：三维变换
 
-### Canvas常规几何变换
+### Canvas 常规几何变换
 
-Canvas还提供了对象的位置变换的方法，其中包括：
+Canvas 还提供了对象的位置变换的方法，其中包括：
 
 - translate(float dx, float dy)：平移
 - rotate(float degrees)：旋转，可以设置旋转圆点，默认在原点位置。
@@ -1112,18 +1125,19 @@ canvas.rotate(45, 750, 750);
 canvas.drawBitmap(bitmapTimo, null, rect2, paint1);
 canvas.restore();//恢复画布
 ```
->注：1 为了不影响其他绘制操作，在进行变换之前需要调用canvas.save()保存画布，变换完成以后再调用canvas.restore()来恢复画布。
-2 Canvas几何变换的顺序是相反的，例如我们在代码写了：canvas.skew(0, 0.5f); canvas.rotate(45, 750, 750); 它的实际调用顺序是canvas.rotate(45, 750, 750); -> canvas.skew(0, 0.5f)
 
-#### Matrix自定义几何变换
+> 注：1 为了不影响其他绘制操作，在进行变换之前需要调用 canvas.save()保存画布，变换完成以后再调用 canvas.restore()来恢复画布。
+> 2 Canvas 几何变换的顺序是相反的，例如我们在代码写了：canvas.skew(0, 0.5f); canvas.rotate(45, 750, 750); 它的实际调用顺序是 canvas.rotate(45, 750, 750); -> canvas.skew(0, 0.5f)
 
-Matrix也实现了Canvas里的四种常规变换，它的实现流程如下：
+#### Matrix 自定义几何变换
+
+Matrix 也实现了 Canvas 里的四种常规变换，它的实现流程如下：
 
 1. 创建 Matrix 对象；
 2. 调用 Matrix 的 pre/postTranslate/Rotate/Scale/Skew() 方法来设置几何变换；
 3. 使用 Canvas.setMatrix(matrix) 或 Canvas.concat(matrix) 来把几何变换应用到 Canvas。
 
->Canvas.concat(matrix)：用 Canvas 当前的变换矩阵和 Matrix 相乘，即基于 Canvas 当前的变换，叠加上 Matrix 中的变换。
+> Canvas.concat(matrix)：用 Canvas 当前的变换矩阵和 Matrix 相乘，即基于 Canvas 当前的变换，叠加上 Matrix 中的变换。
 
 举例
 
@@ -1144,7 +1158,8 @@ canvas.concat(matrix);
 canvas.drawBitmap(bitmapTimo, null, rect2, paint1);
 canvas.restore();//恢复画布
 ```
-Matrix除了四种基本的几何变换，还可以自定义几何变换。
+
+Matrix 除了四种基本的几何变换，还可以自定义几何变换。
 
 - setPolyToPoly(float[] src, int srcIndex, float[] dst, int dstIndex, int pointCount)
 - setRectToRect(RectF src, RectF dst, ScaleToFit stf)
@@ -1163,31 +1178,32 @@ canvas.concat(matrix);
 canvas.drawBitmap(bitmapTimo, 0, 0, paint1);
 canvas.restore();//恢复画布
 ```
-#### Camera三维变换
 
-在讲解Camera的三维变换之前，我们需要先理解Camera的坐标系系统。
+#### Camera 三维变换
 
-我们前面说过，Canvas使用的是二维坐标系。
+在讲解 Camera 的三维变换之前，我们需要先理解 Camera 的坐标系系统。
+
+我们前面说过，Canvas 使用的是二维坐标系。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/canvas_coordinate_system.png" width="350"/>
 
-而Camera使用的是三维坐标系，这里偷个懒😊，借用凯哥的图来描述一下。
+而 Camera 使用的是三维坐标系，这里偷个懒 😊，借用凯哥的图来描述一下。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/camera_coordinate_system_1.gif"/>
 
-关于Camera坐标系：
+关于 Camera 坐标系：
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/camera_tranlate_direction.png"/>
 
-- 首先你要注意x、y、z轴的方向，z轴朝外是负轴。
-- 在z的负轴上有个虚拟相机（就是图中的哪个黄点），它就是用来做投影的，setLocation(float x, float y, float z)方法移动的也就是它的位置。
-- x、y、z轴旋转的方向也在上图中标出来了。
+- 首先你要注意 x、y、z 轴的方向，z 轴朝外是负轴。
+- 在 z 的负轴上有个虚拟相机（就是图中的哪个黄点），它就是用来做投影的，setLocation(float x, float y, float z)方法移动的也就是它的位置。
+- x、y、z 轴旋转的方向也在上图中标出来了。
 
-比如我们在Camera坐标系里做个X轴方向的旋转
+比如我们在 Camera 坐标系里做个 X 轴方向的旋转
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/camera_coordinate_system_2.gif"/>
 
-Camera的三维变换包括：旋转、平移与移动相机。
+Camera 的三维变换包括：旋转、平移与移动相机。
 
 旋转
 
@@ -1209,7 +1225,6 @@ Camera的三维变换包括：旋转、平移与移动相机。
 旋转
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/camera_rotate.png" width="250" height="500"/>
-
 
 ```java
 //Camera三维变换
@@ -1266,9 +1281,9 @@ canvas.restore();//恢复画布
 
 ## 四 Path
 
->Path描述了绘制路径，用它可以完成很多复杂的图形绘制。
+> Path 描述了绘制路径，用它可以完成很多复杂的图形绘制。
 
-我们再来看看Path里的方法。
+我们再来看看 Path 里的方法。
 
 ### 4.1 添加图形
 
@@ -1280,13 +1295,14 @@ public void addCircle(float x, float y, float radius, Direction dir) {
     native_addCircle(mNativePath, x, y, radius, dir.nativeInt);
 }
 ```
+
 该方法的参数含义：
 
-- float x：圆心x轴坐标
-- float y：圆心y轴坐标
+- float x：圆心 x 轴坐标
+- float y：圆心 y 轴坐标
 - float radius：圆半径
-- Direction dir：画圆的路径的方向，顺时针Direction.CN，逆时针Direction.CCN，它们在填充图形（Paint.Style 为 FILL 或  FILL_AND_STROKE）且图形出现相交的时候
-用来判断填充范围。
+- Direction dir：画圆的路径的方向，顺时针 Direction.CN，逆时针 Direction.CCN，它们在填充图形（Paint.Style 为 FILL 或 FILL_AND_STROKE）且图形出现相交的时候
+  用来判断填充范围。
 
 其他的方法都是这个方法类似。
 
@@ -1307,9 +1323,10 @@ public void rLineTo(float dx, float dy) {
     native_rLineTo(mNativePath, dx, dy);
 }
 ```
->当前位置：当前位置指的是最后一次盗用Path的方法的终点位置，初始原点为(0, 0)
 
-这里说到当前位置，我们再提一个方法Path.moveTo(float x, float y)，它可以移动当前位置到一个新的位置。
+> 当前位置：当前位置指的是最后一次盗用 Path 的方法的终点位置，初始原点为(0, 0)
+
+这里说到当前位置，我们再提一个方法 Path.moveTo(float x, float y)，它可以移动当前位置到一个新的位置。
 
 举例
 
@@ -1322,38 +1339,39 @@ path.lineTo(300, 400);// 由当前位置 (0, 0) 向 (300, 400) 画一条直线
 path.rLineTo(400, 0);// 由当前位置 (300, 400) 向正右方400像素的位置画一条直线
 canvas.drawPath(path, paint);
 ```
+
 **贝塞尔曲线**
 
->贝塞尔曲线：贝塞尔曲线是几何上的一种曲线。它通过起点、控制点和终点来描述一条曲线，主要用于计算机图形学。简单来说，贝塞尔曲线就是将任意一条曲线转换为精确的数学公式。
+> 贝塞尔曲线：贝塞尔曲线是几何上的一种曲线。它通过起点、控制点和终点来描述一条曲线，主要用于计算机图形学。简单来说，贝塞尔曲线就是将任意一条曲线转换为精确的数学公式。
 
 在贝塞尔曲线中，有两类点：
 
 - 数据点：一般指一条路径的起点与终点。
-- 控制点：控制点决定了路径的弯曲轨迹，根据控制点的个数，贝塞尔曲线分为：一阶贝塞尔曲线（0个控制点），二阶贝塞尔曲线（1个控制点），三阶贝塞尔曲线（2个控制点）等。
+- 控制点：控制点决定了路径的弯曲轨迹，根据控制点的个数，贝塞尔曲线分为：一阶贝塞尔曲线（0 个控制点），二阶贝塞尔曲线（1 个控制点），三阶贝塞尔曲线（2 个控制点）等。
 
 一阶贝塞尔曲线
 
-![](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/art/app/ui/bezier_cure_1_formula.svg)
+![](./art/app/ui/bezier_cure_1_formula.svg)
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/bezier_cure_1_demo.gif"/>
 
-B(t)为时间为t时的坐标，P0为起点，P1为终点。
+B(t)为时间为 t 时的坐标，P0 为起点，P1 为终点。
 
 二阶贝塞尔曲线
 
-![](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/art/app/ui/bezier_cure_2_formula.svg)
+![](./art/app/ui/bezier_cure_2_formula.svg)
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/bezier_cure_2_demo.gif"/>
 
 三阶贝塞尔曲线
 
-![](https://github.com/guoxiaoxing/android-open-source-project-analysis/blob/master/art/app/ui/bezier_cure_3_formula.svg)
+![](./art/app/ui/bezier_cure_3_formula.svg)
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/bezier_cure_3_demo.gif"/>
 
 贝塞尔曲线的模拟可以使用[bezier-curve](http://myst729.github.io/bezier-curve/)
 
-我们再来看看Path类提供的关于贝塞尔曲线的方法。
+我们再来看看 Path 类提供的关于贝塞尔曲线的方法。
 
 ```java
 
@@ -1503,6 +1521,7 @@ public class WaveView extends View {
     }
 }
 ```
+
 **弧线**
 
 ```java
@@ -1514,14 +1533,15 @@ public void arcTo(float left, float top, float right, float bottom, float startA
     native_arcTo(mNativePath, left, top, right, bottom, startAngle, sweepAngle, forceMoveTo);
 }
 ```
+
 我们来看看这个方法的参数：
 
 - float left, float top, float right, float bottom：左、上、右、下的坐标。
-- float startAngle：弧形起始角度，Android坐标系x轴正右的方向是0度的位置，顺时针为正角度，逆时针为负角度。
+- float startAngle：弧形起始角度，Android 坐标系 x 轴正右的方向是 0 度的位置，顺时针为正角度，逆时针为负角度。
 - float sweepAngle：弧形划过的角度。
-- boolean forceMoveTo)：是否留下移动的痕迹file
+- boolean forceMoveTo)：是否留下移动的痕迹 file
 
->注：可以发现，这个方法与同样用来画弧线的方法Canvas.drawArc()少了个boolean useCenter参数，这是因为arcTo()方法只用来画弧线。
+> 注：可以发现，这个方法与同样用来画弧线的方法 Canvas.drawArc()少了个 boolean useCenter 参数，这是因为 arcTo()方法只用来画弧线。
 
 ### 4.3 辅助设置和计算
 
@@ -1531,15 +1551,15 @@ public void arcTo(float left, float top, float right, float bottom, float startA
 
 - WINDING：non-zero winding rule，非零环绕数原则，
 - EVEN_ODD：even-odd rule，奇偶原则
-- INVERSE_WINDING：WINDING的反转
-- INVERSE_EVEN_ODD：EVEN_ODD的反转
+- INVERSE_WINDING：WINDING 的反转
+- INVERSE_EVEN_ODD：EVEN_ODD 的反转
 
->WINDING：non-zero winding rule，非零环绕数原则，该原则基于所有图形的绘制都有绘制方向（前面提到的Direction描述的顺时针与逆向时针），对于平面上的任意一点，向任意方向射出一条射线，射线遇到每个顺时针
-的交点则加1，遇到逆时针的交点则减1，最后的结果如果不为0，则认为该点在图形内部，染色。如果结果为0，则认为该点在图形外部，不染色。
+> WINDING：non-zero winding rule，非零环绕数原则，该原则基于所有图形的绘制都有绘制方向（前面提到的 Direction 描述的顺时针与逆向时针），对于平面上的任意一点，向任意方向射出一条射线，射线遇到每个顺时针
+> 的交点则加 1，遇到逆时针的交点则减 1，最后的结果如果不为 0，则认为该点在图形内部，染色。如果结果为 0，则认为该点在图形外部，不染色。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/fill_type_winding.jpg"/>
 
->EVEN_ODD：even-odd rule，奇偶原则，对于平面上的任意一点，向任意方向射出一条射线，这条射线与图形相交（不是相切）的次数为奇数则说明这个点在图形内部，则进行染色。若为偶数则认为在图形外部，不进行染色。
-这是一中交叉染色的情况。
+> EVEN_ODD：even-odd rule，奇偶原则，对于平面上的任意一点，向任意方向射出一条射线，这条射线与图形相交（不是相切）的次数为奇数则说明这个点在图形内部，则进行染色。若为偶数则认为在图形外部，不进行染色。
+> 这是一中交叉染色的情况。
 
 <img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/fill_type_even_odd.jpg"/>
