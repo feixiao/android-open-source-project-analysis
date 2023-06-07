@@ -1,10 +1,4 @@
-# Android 显示框架：Android 应用视图的载体 View
-
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
-
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
+## Android 显示框架：Android 应用视图的载体 View
 
 **文章目录**
 
@@ -19,14 +13,14 @@
 
 View 是屏幕上的一块矩形区域，负责界面的绘制与触摸事件的处理，它是一种界面层控件的抽象，所有的控件都继承自 View。
 
-View 是 Android 显示框架中较为复杂的一环，首先是它的生命周期会随着 Activity 的生命周期进行变化，掌握 View 的生命周期对我们自定义 View 有着重要的意义。另一个方面 View 从 ViewRoot.performTraversals()开始
-经历 measure、layout、draw 三个流程最终显示在用户面前，用户在点击屏幕时，点击事件随着 Activity 传入 Window，最终由 ViewGroup/View 进行分发处理。今天我们就围绕着这些主题进行展开分析。
+- View 是 Android 显示框架中较为复杂的一环，首先是它的生命周期会随着 Activity 的生命周期进行变化，掌握 View 的生命周期对我们自定义 View 有着重要的意义。
+- 另一个方面 View 从 ViewRoot.performTraversals()开始经历 measure、layout、draw 三个流程最终显示在用户面前，用户在点击屏幕时，点击事件随着 Activity 传入 Window，最终由 ViewGroup/View 进行分发处理。今天我们就围绕着这些主题进行展开分析。
 
 ## 一 View 生命周期
 
 在 View 中有诸多回调方法，它们在 View 的不同生命周期阶段调用，常用的有以下方法。
 
-我们写一个简单的自定义 View 来观察 View 与 Activity 的生命周期变化。
+我们写一个简单的自定义 View **来观察 View 与 Activity 的生命周期变化**。
 
 ```java
 public class CustomView extends View {

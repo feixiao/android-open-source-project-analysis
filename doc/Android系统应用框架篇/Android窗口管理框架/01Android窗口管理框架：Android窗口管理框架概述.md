@@ -1,18 +1,12 @@
-# Android 窗口管理框架篇：Android 窗口管理框架概述
+## Android 窗口管理框架篇：Android 窗口管理框架概述
 
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
-
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/android_ui_system.png"/>
+![](../../../art/app/ui/android_ui_system.png)
 
 从上图可以看出，Android 的显示系统分为 3 层：
 
-- UI 框架层：负责管理窗口中 View 组件的布局与绘制以及响应用户输入事件
-- WindowManagerService 层：负责管理窗口 Surface 的布局与次序
-- SurfaceFlinger 层：将 WindowManagerService 管理的窗口按照一定的次序显示在屏幕上
+- **UI 框架层**：负责管理窗口中 View 组件的布局与绘制以及响应用户输入事件
+- **WindowManagerService** 层：负责管理窗口 Surface 的布局与次序
+- **SurfaceFlinger** 层：将 WindowManagerService 管理的窗口按照一定的次序显示在屏幕上
 
 在 Android 显示框架里有这么几个角色：
 
