@@ -1,12 +1,6 @@
-# Android 界面开发：View 自定义实践概览
-
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
+## Android 界面开发：View 自定义实践概览
 
 **文章目录**
-
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
 - [01Android 界面开发：View 自定义实践概览](./doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
 - [02Android 界面开发：View 自定义实践布局篇](./doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
@@ -24,7 +18,7 @@ View 自定义有三个关键点：
 - 绘制：决定 View 的具体内容
 - 交互：决定 View 与用户的交互体验
 
-View 自定义通常有哪些手段？🤔
+**View 自定义通常有哪些手段？🤔**
 
 - 继承 View 重写 onDraw()方法，这种方式通常用来实现一些特殊的绘制效果。
 - 继承 ViewGroup 实现一些特殊的 Layout，这种方式通常用来实现一些系统之外的特殊的布局效果。
@@ -49,10 +43,4 @@ View 自定义通常需要处理哪些问题？🤔
     </declare-styleable>
 
 </resources>
-```
-
-自定义 View
-
-```java
-
 ```

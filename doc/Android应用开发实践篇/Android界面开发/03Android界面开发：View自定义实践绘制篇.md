@@ -1,8 +1,4 @@
-# Android 界面开发：View 自定义实践绘制篇
-
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
+## Android 界面开发：View 自定义实践绘制篇
 
 **文章目录**
 
@@ -16,11 +12,10 @@
   - 3.2 范围裁切
   - 3.3 几何变换
 - 四 Path
+
   - 4.1 添加图形
   - 4.3 画线（直线或曲线）
   - 4.3 辅助设置和计算
-
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
 
 - [01Android 界面开发：View 自定义实践概览](./doc/Android应用开发实践篇/Android界面开发/01Android界面开发：View自定义实践概览.md)
 - [02Android 界面开发：View 自定义实践布局篇](./doc/Android应用开发实践篇/Android界面开发/02Android界面开发：View自定义实践布局篇.md)
@@ -29,10 +24,10 @@
 
 **文章源码**
 
-- [DrawView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/DrawView.java)
-- [WaveView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/bazier/WaveView.java)
-- [RippleLayout](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/RippleLayout.java)
-- [LabelImageView](./demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/LabelImageView.java)
+- [DrawView](../../demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/DrawView.java)
+- [WaveView](../../demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/bazier/WaveView.java)
+- [RippleLayout](../../demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/RippleLayout.java)
+- [LabelImageView](../../demo/src/main/java/com/guoxiaoxing/android/framework/demo/application/ui/LabelImageView.java)
 
 本文还提供了三个综合性的完整实例来辅助理解。
 
@@ -40,13 +35,11 @@
 - Canvas 绘图 - 水面涟漪效果实现
 - 二阶贝塞尔曲线的应用 - 杯中倒水效果实现
 
-<p>
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/label_view.png" width="250" height="500"/>
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/ripple.gif" width="260" height="500"/>
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/bezier_wave.gif" width="260" height="500"/>
-</p>
+![](../../../art/app/ui/label_view.png)
 
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
+![](../../../art/app/ui/ripple.gif)
+
+![](../../../art/app/ui/bezier_wave.gif)
 
 本篇文章我们来分析 View 绘制方面的实践。
 
@@ -79,8 +72,7 @@ public class DrawView extends View {
 ```
 
 它在屏幕上绘制了一个圆形，如图：
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/draw_view_1.png" width="250" height="500"/>
+![](../../../art/app/ui/draw_view_1.png)
 
 在处理绘制的时候有以下几个关键点：
 
@@ -98,8 +90,7 @@ public class DrawView extends View {
 2. onDraw()：绘制主体。
 3. dispatchDraw()：绘制子 View
 4. onDrawForeground()：绘制滑动边缘渐变、滚动条和前景。
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_draw_flow.png"/>
+   ![](../../../art/app/ui/view_draw_flow.png)
 
 我们先从个小例子开始。
 
@@ -138,8 +129,7 @@ public class DrawView extends TextView {
 我们来写个例子理解下。
 
 举例
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/label_view.png" width="250" height="500"/>
+![](../../../art/app/ui/label_view.png)
 
 ```java
 public class LabelImageView extends AppCompatImageView {
@@ -782,8 +772,7 @@ drawBitmapMesh()方法将位图分为若干网格，然后对每个网格进行�
 
 我们来用 drawBitmapMesh()方法实现一个水面涟漪效果。
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/ripple.gif" width="260" height="500"/>
-
+![](../../../art/app/ui/ripple.gif)
 举例
 
 ```java
