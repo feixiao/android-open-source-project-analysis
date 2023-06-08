@@ -1,11 +1,5 @@
 ## Android 窗口管理框架：Android 应用视图的管理者 Window
 
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
-
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
-
 **文章目录**
 
 - 一 窗口类型
@@ -21,9 +15,9 @@
 > Window 在 Android 是一个窗口的概念，日常开发中我们和它接触的不多，我们更多接触的是 View，但是 View 都是通过 Window 来呈现的，Window 是 View 的直接管理者。
 > 而 WindowManager 承担者管理 Window 的责任。
 
-## 一 窗口类型
+### 一 窗口类型
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/window_layer.png" width="250" height="500"/>
+![](../../../art/app/ui/window_layer.png)
 
 Window 在 Android 中有三种类型：
 
@@ -65,7 +59,7 @@ z-index 对应着 WindowManager.LayoutParams 里的 type 参数，具体说来�
 - public static final int TYPE_KEYGUARD = FIRST_SYSTEM_WINDOW+4;//锁屏窗口
 - public static final int TYPE_TOAST = FIRST_SYSTEM_WINDOW+5;//TOAST 窗口
 
-## 二 窗口参数
+### 二 窗口参数
 
 在 WindowManager 里定义了一个 LayoutParams 内部类，它描述了窗口的参数信息，主要包括：
 
@@ -139,7 +133,7 @@ z-index 对应着 WindowManager.LayoutParams 里的 type 参数，具体说来�
  }
 ```
 
-## 三 窗口模式
+### 三 窗口模式
 
 关于窗口模式我们就比较熟悉了，我们会在 AndroidManifest.xml 里 Activity 的标签下设置 android:windowSoftInputMode="adjustNothing"，来控制输入键盘显示行为。
 
@@ -158,7 +152,7 @@ z-index 对应着 WindowManager.LayoutParams 里的 type 参数，具体说来�
 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 ```
 
-## 四 窗口回调
+### 四 窗口回调
 
 Window 里定义了一个 Callback 接口，Activity 实现了 Window.Callback 接口，将 Activity 关联给 Window，Window 就可以将一些事件交由 Activity 处理。
 
@@ -216,7 +210,7 @@ Window 里定义了一个 Callback 接口，Activity 实现了 Window.Callback �
     }
 ```
 
-## 五 窗口实现
+### 五 窗口实现
 
 Window 是一个抽象类，它的唯一实现类是 PhoneWindow，PhoneWindow 里包含了以下内容：
 
@@ -346,7 +340,7 @@ public class Activity extends ContextThemeWrapper
 
 好了，以上便是本篇文章的全部内容，下一篇文章我们来分析 WindowManager 的内容，分析 Window 的添加、移除和更新的流程。
 
-## 附录
+### 附录
 
 文章末尾给大家提供一个 WindowUtils 工具类。
 

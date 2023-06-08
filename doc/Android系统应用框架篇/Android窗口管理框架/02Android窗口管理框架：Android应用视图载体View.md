@@ -16,7 +16,7 @@ View 是屏幕上的一块矩形区域，负责界面的绘制与触摸事件的
 - View 是 Android 显示框架中较为复杂的一环，首先是它的生命周期会随着 Activity 的生命周期进行变化，掌握 View 的生命周期对我们自定义 View 有着重要的意义。
 - 另一个方面 View 从 ViewRoot.performTraversals()开始经历 measure、layout、draw 三个流程最终显示在用户面前，用户在点击屏幕时，点击事件随着 Activity 传入 Window，最终由 ViewGroup/View 进行分发处理。今天我们就围绕着这些主题进行展开分析。
 
-## 一 View 生命周期
+### 一：View 生命周期
 
 在 View 中有诸多回调方法，它们在 View 的不同生命周期阶段调用，常用的有以下方法。
 
@@ -174,23 +174,20 @@ Activity 与 View 的生命周期变化一目了然。
 
 Activity create
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_lifecycle_create.png"/>
+![](../../../art/app/ui/view_lifecycle_create.png)
 
 Activity pause
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_lifecycle_pause.png"/>
+![](../../../art/app/ui/view_lifecycle_pause.png)
 
 Activity resume
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_lifecycle_resume.png"/>
+![](../../../art/app/ui/view_lifecycle_resume.png)
 
 Activity destory
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_lifecycle_destory.png"/>
+![](../../../art/app/ui/view_lifecycle_destory.png)
 
 我们来总结一下 View 的声明周期随着 Activity 生命周期变化的情况。
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/view_lifecycle.png"/>
+![](../../../art/app/ui/view_lifecycle.png)
 
 我们了解这些生命周期方法有什么作用呢？🤔
 
@@ -250,7 +247,7 @@ protected void onDetachedFromWindow() {
 }
 ```
 
-## 二 View 的测量流程
+### 二： View 的测量流程
 
 View 是一个矩形区域，它有自己的位置、大小与边距。
 
@@ -276,7 +273,7 @@ View 外边距
 
 理解了上面这些概念，我们接下来来看看详细的测量流程。
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/measure_sequence.png" height="500"/>
+![](../../../art/app/ui/measure_sequence.png)
 
 View 的测量流程看似复杂，实际遵循着简单的逻辑。
 
@@ -404,8 +401,8 @@ padding，以及子 View 自身大小 childDimension 共同来决定的。
 - 对于顶级 View（DecorView）其 MeasureSpec 由窗口的尺寸和自身的 LayoutParams 共同确定的。
 - 对于普通 View 其 MeasureSpec 由父容器的 Measure 和自身的 LayoutParams 共同确定的。
 
-View 的绘制会先调用 View 的 measure()方法，measure()方法用来测量 View 的大小，实际的测量工作是由 View 的 onMeasure()来完成的。我们来看看
-onMeasure(int widthMeasureSpec, int heightMeasureSpec)方法的实现。
+View 的绘制会先调用 View 的 measure()方法，measure()方法用来测量 View 的大小，实际的测量工作是由 View 的 onMeasure()来完成的。
+我们来看看 onMeasure(int widthMeasureSpec, int heightMeasureSpec)方法的实现。
 
 **关键点 1：View.onMeasure(int widthMeasureSpec, int heightMeasureSpec)**
 
@@ -602,7 +599,7 @@ public class FrameLayout extends ViewGroup {
 
 ## 三 View 的布局流程
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/layout_sequence.png" height="500"/>
+![](../../../art/app/ui/layout_sequence.png)
 
 在进行布局的时候，layout()方法被父 View 调用，在 layout()中它会保存父 View 传进来的自己的位置和尺寸，并且调用 onLayout()来进行实际的内部布局。对于 onLayout()，View 和 ViewGroup 有所区别：
 
@@ -775,11 +772,10 @@ public class FrameLayout extends ViewGroup {
 接着，该方法就会遍历它的每一个子 View，并获取它的左上角的坐标位置：childLeft，childTop。这两个位置信息会根据 gravity 来进行计算。
 最后会调用子 View 的 layout()方法循环布局操作，直到所有的布局都完成为止。
 
-## View 的绘制流程
+### View 的绘制流程
 
-> Draw 过程最终将 View 绘制在屏幕上。
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/app/ui/draw_sequence.png" height="500"/>
+Draw 过程最终将 View 绘制在屏幕上。
+![](../../../art/app/ui/draw_sequence.png)
 
 绘制从 ViewRoot.draw()开始，它首先会创建一块画布，接着再在画布上绘制 Android 上的 UI，再把画布的内容交给 SurfaceFlinger 服务来渲染。
 
@@ -1653,7 +1649,7 @@ ViewGroup.drawChild(Canvas canvas, View child, long drawingTime)用来完成子�
 2. Android 应用程序窗口 UI 首先是使用 Skia 图形库 API 来绘制在一块画布上，实际地是绘制在这块画布里面的一个图形缓冲区中，这个图形缓冲区最终会被交给 SurfaceFlinger 服
    务，而 SurfaceFlinger 服务再使用 OpenGL 图形库 API 来将这个图形缓冲区渲染到硬件帧缓冲区中。
 
-## 五 View 事件分发机制
+### 五 View 事件分发机制
 
 在介绍 View 的事件分发机制之前，我们要先了解两个概念。
 
@@ -2027,7 +2023,7 @@ true，CLICKABLE 默认为 false，值得一提的是 setOnClickListener()方法
 
 通过对源码的分析，我们已经掌握了各种场景下事件分发的规律，我们再来总结一下 View 事件分发的相关结论。
 
-- 事件的传递是按照 Activity -> Window -> View 的顺序进行的
+- 事件的传递是按照 **Activity -> Window -> View** 的顺序进行的
 - 一般情况下，一个事件序列只能由一个 View 拦截并消耗，一旦一个 View 拦截了该事件，则该事件序列的后续事件都会交由该 View 来处理。
 - ViewGroup 默认不拦截任何事件
 - View 没有 onInterceptTouchEvent()方法，一但有点击事件传递给它，它的 ouTouchEvent()方法就会被调用。
