@@ -1,8 +1,4 @@
-# Android 进程框架：线程与线程池
-
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
+## Android 进程框架：线程与线程池
 
 **文章目录**
 
@@ -22,9 +18,9 @@
 
 本篇文章主要用来讨论 Java 中多线程并发原理与实践经验，并不是一篇使用例子教程，这方面内容可以参考网上其他文章。
 
-## 一 线程原理
+### 一 线程原理
 
-### 1.1 线程创建
+#### 1.1 线程创建
 
 > 线程是比进程更加轻量级的调度单位，线程的引入可以把进程的资源分配和执行调度分开，各个线程既可以共享进程资源，又可以独立调度。
 
@@ -47,8 +43,7 @@
 - PCB：进程信息，状态标识等
 
 我们接着来看看 Java 线程的创建序列图，如下所示：
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/java_thread_start_sequence.png"/>
+![](../../../art/native/process/java_thread_start_sequence.png)
 
 可以看到，最终调用 pthread 库的 pthread_create()方法创建了新的线程，该线程也使用 task_struct 结构体来描述，但是它没有自己独立的地址空间，而是与其所在的进程共享地址空间和资源。
 
@@ -59,8 +54,7 @@
 ### 1.2 线程调度
 
 线程状态流程图图
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/java_thread_state.png"/>
+![](../../../art/native/process/java_thread_state.png)
 
 - NEW：创建状态，线程创建之后，但是还未启动。
 - RUNNABLE：运行状态，处于运行状态的线程，但有可能处于等待状态，例如等待 CPU、IO 等。
@@ -145,8 +139,7 @@ Vector，那它就不再是线程安全的了。
 ```
 
 但是程序却 crash 了
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/vector_thread_safe.png"/>
+![](../../../art/native/process/vector_thread_safe.png)
 
 正确的做法应该是 vector 对象加上同步锁，如下：
 
@@ -199,8 +192,7 @@ volatile 有两条关键的语义：
 - 禁止进行指令重排序
 
 要理解 volatile 关键字，我们得先从 Java 的线程模型开始说起。如图所示：
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/java_memory_model.png"/>
+![](../../../art/native/process/java_memory_model.png)
 
 Java 内存模型规定了所有字段（这些字段包括实例字段、静态字段等，不包括局部变量、方法参数等，因为这些是线程私有的，并不存在竞争）都存在主内存中，每个线程会
 有自己的工作内存，工作内存里保存了线程所使用到的变量在主内存里的副本拷贝，线程对变量的操作只能在工作内存里进行，而不能直接读写主内存，当然不同内存之间也
@@ -246,7 +238,7 @@ Java 内存模型规定了所有字段（这些字段包括实例字段、静态
 
 ```
 
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/volatile_thread_safe.png"/>
+![](../../../art/native/process/volatile_thread_safe.png)
 
 这段代码启动了 10 个线程，每次 10 次自增，按道理最终结果应该是 100，但是结果并非如此。
 
@@ -312,8 +304,7 @@ public class Singleton {
 这是一个经典的 DSL 单例。
 
 它的字节码如下：
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/synchronized_bytecode.png"/>
+![](../../../art/native/process/synchronized_bytecode.png)
 
 可以看到被 synchronized 同步的代码块，会在前后分别加上 monitorenter 和 monitorexit，这两个字节码都需要指定加锁和解锁的对象。
 
@@ -348,8 +339,7 @@ synchronized(this)添加的是对象锁，synchronized(ClassName.class)添加的
 线程池有五种运行状态，如下所示：
 
 线程池状态图
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/ThreadPoolExecutor_state.png"  height="400"/>
+![](../../../art/native/process/ThreadPoolExecutor_state.png)
 
 - RUNNING：可以接受新任务，也可以处理等待队列里的任务。
 - SHUTDOWN：不接受新任务，但可以处理等待队列里的任务。
@@ -391,8 +381,7 @@ private static int ctlOf(int rs, int wc) { return rs | wc; }
 我们接下来看看线程池是和执行任务的。
 
 ThreadPoolExecutor 调度流程图
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/ThreadPoolExecutor_flow.png"/>
+![](../../../art/native/process/ThreadPoolExecutor_flow.png)
 
 **execute(Runnable command)**
 
