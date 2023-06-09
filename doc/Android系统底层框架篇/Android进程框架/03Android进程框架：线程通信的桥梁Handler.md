@@ -1,8 +1,4 @@
-# Android 进程框架：线程通信的桥梁 Handler
-
-**关于作者**
-
-> 郭孝星，程序员，吉他手，主要从事 Android 平台基础架构方面的工作，欢迎交流技术方面的问题，可以去我的[Github](https://github.com/guoxiaoxing)提 issue 或者发邮件至guoxiaoxingse@163.com与我交流。
+## Android 进程框架：线程通信的桥梁 Handler
 
 **文章目录**
 
@@ -14,13 +10,10 @@
   - 3.1 消息分发
   - 3.2 消息处理
 
-第一次阅览本系列文章，请参见[导读](./doc/导读.md)，更多文章请参见[文章目录](./README.md)。
-
 Android 是一个消息驱动型的系统，消息机制在 Android 系统中扮演者重要的角色，与之相关的 Handler 也是我日常中常用的工具。今天我们就来聊一聊这个。
 
 Android 消息循环流程图如下所示：
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_structure.png"/>
+![](../../../art/native/process/android_handler_structure.png)
 
 主要涉及的角色如下所示：
 
@@ -36,8 +29,7 @@ Android 消息循环流程图如下所示：
 3. target handler 调用自身的 handleMessage()方法来处理 Message。
 
 事实上，在整个消息循环的流程中，并不只有 Java 层参与，很多重要的工作都是在 C++层来完成的。我们来看下这些类的调用关系。
-
-<img src="https://github.com/guoxiaoxing/android-open-source-project-analysis/raw/master/art/native/process/android_handler_class.png"/>
+![](../../../art/native/process/android_handler_class.png)
 
 注：虚线表示关联关系，实线表示调用关系。
 
